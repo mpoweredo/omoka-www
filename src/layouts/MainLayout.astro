@@ -1,0 +1,125 @@
+---
+import Footer from '~components/sections/Footer.astro';
+import Header from '~components/sections/Header.astro';
+import '~styles/styles.scss';
+
+interface Props {
+  title: string;
+  description: string;
+  // Optional SEO overrides
+  canonical?: string;
+  ogImage?: string;
+  ogType?: string;
+  ogUrl?: string;
+  twitterCard?: string;
+  // JSON-LD structured data
+  jsonLd?: Record<string, any>;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogType = 'website',
+  ogUrl,
+  twitterCard = 'summary_large_image',
+  jsonLd,
+} = Astro.props;
+
+// Absolute URL dla og:image (wymagane przez Facebook, LinkedIn, etc.)
+const defaultOgImageUrl = new URL('/og-image.png', Astro.site).href;
+const canonicalUrl = canonical || Astro.url.href;
+const ogUrlFinal = ogUrl || Astro.url.href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Favicon dla nowoczesnych przeglądarek -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Open Graph meta tags (Facebook, LinkedIn) -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={ogUrlFinal} />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+    <meta property="og:image" content={defaultOgImageUrl} />
+
+    <!-- Twitter/X Card meta tags -->
+    <meta name="twitter:card" content={twitterCard} />
+    <meta name="twitter:title" content={title} />
+    {description && <meta name="twitter:description" content={description} />}
+    <meta name="twitter:image" content={defaultOgImageUrl} />
+
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/favicon-192x192.png" />
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/favicon/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/favicon/favicon-16x16.png"
+    />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+
+    <!-- Apple Touch Icon -->
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/favicon/apple-touch-icon.png"
+    />
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/favicon/site.webmanifest" />
+
+    <meta name="generator" content={Astro.generator} />
+    {description && <meta name="description" content={description} />}
+    <title>{title}</title>
+
+    <!-- JSON-LD Structured Data -->
+    {
+      jsonLd && (
+        <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+      )
+    }
+  </head>
+
+  <body>
+    <invent-assistant
+      theme-appearance="light"
+      theme-button-background-color="#7950EF"
+      assistant-id="ast_50Asa4OE6UB7qRwqa10tpZ"></invent-assistant>
+    <script
+      type="text/javascript"
+      src="https://www.useinvent.com/button.js"
+      async
+      defer></script>
+
+    <Header />
+
+    <slot />
+
+    <Footer />
+  </body>
+</html>
+
+<style>
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+  }
+</style>

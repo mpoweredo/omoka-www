@@ -1,0 +1,228 @@
+---
+import Typography from '~components/ui/Typography.astro';
+import { Image } from 'astro:assets';
+import founder2 from '~assets/founders/founder-tommy.jpeg';
+import founder1 from '~assets/founders/founder-pawel.jpeg';
+import { AUTHORS } from '~consts/authors';
+import dashboardImage from '~assets/dashboard.png';
+import Button from '~components/ui/Button.astro';
+import { SECTIONS } from '~consts/sections';
+---
+
+<div class="container" id={SECTIONS.CONTACT}>
+  <div class="content">
+    <Typography tag="p" styling="headingL" align="left" class="contactTitle">
+      Let's talk!
+    </Typography>
+
+    <Typography
+      color="gray1200"
+      align="left"
+      tag="p"
+      styling="paragraphL"
+      class="contactDescription"
+    >
+      If you have any questions, contact us.
+      <br />
+      <br />
+      We usually reply within the same day<br />
+      or the next business day. Thank you!
+    </Typography>
+
+    <div class="buttonContainer">
+      <Button
+        href="https://meetings-eu1.hubspot.com/tommy-phan"
+        variant="primary"
+      >
+        Get estimation advice
+      </Button>
+    </div>
+
+    <div class="founders">
+      <div class="founder">
+        <a href={AUTHORS['Paweł'].linkedin} target="_blank">
+          <Image
+            src={founder1}
+            alt={AUTHORS['Paweł'].name}
+            class="founderImage"
+          />
+        </a>
+
+        <div class="founderInfo">
+          <a
+            href={AUTHORS['Paweł'].linkedin}
+            target="_blank"
+            class="founderLink"
+          >
+            <Typography tag="p" styling="headingXs">
+              {AUTHORS['Paweł'].name}
+            </Typography>
+          </a>
+
+          <div class="founderLinks">
+            <a href={`mailto:${AUTHORS['Paweł'].email}`} class="founderLink">
+              <Typography tag="p" styling="paragraphM">
+                {AUTHORS['Paweł'].email}
+              </Typography>
+            </a>
+
+            <a href={`tel:${AUTHORS['Paweł'].phone}`} class="founderLink">
+              <Typography tag="p" styling="paragraphM">
+                {AUTHORS['Paweł'].phone}
+              </Typography>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="founder">
+        <a href={AUTHORS['Tommy'].linkedin} target="_blank">
+          <Image
+            src={founder2}
+            alt={AUTHORS['Tommy'].name}
+            class="founderImage"
+          />
+        </a>
+
+        <div class="founderInfo">
+          <a
+            href={AUTHORS['Tommy'].linkedin}
+            target="_blank"
+            class="founderLink"
+          >
+            <Typography tag="p" styling="headingXs">
+              {AUTHORS['Tommy'].name}
+            </Typography>
+          </a>
+
+          <div class="founderLinks">
+            <a href={`mailto:${AUTHORS['Tommy'].email}`} class="founderLink">
+              <Typography tag="p" styling="paragraphM">
+                {AUTHORS['Tommy'].email}
+              </Typography>
+            </a>
+
+            <a href={`tel:${AUTHORS['Tommy'].phone}`} class="founderLink">
+              <Typography tag="p" styling="paragraphM">
+                {AUTHORS['Tommy'].phone}
+              </Typography>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashboardImage">
+      <Image src={dashboardImage} alt="Dashboard" />
+    </div>
+  </div>
+
+  <style lang="scss">
+    @use '~styles/mixins/media' as *;
+
+    .container {
+      margin-top: calc(var(--section-gap) / 2);
+      padding: var(--s-16);
+      border-radius: 2.8rem;
+      background-color: var(--gray-100);
+      scroll-margin-top: 10rem;
+    }
+
+    .content {
+      position: relative;
+
+      overflow: hidden;
+
+      padding: var(--s-46);
+      border: 2px solid var(--gray-300);
+      border-radius: 2rem;
+
+      background-color: var(--background);
+    }
+
+    .dashboardImage {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+
+      overflow: hidden;
+      display: none;
+
+      height: 54rem;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+
+      @include media-min('sm') {
+        right: -60rem;
+        display: block;
+      }
+
+      @include media-min('md') {
+        right: -50rem;
+      }
+
+      @include media-min('lg') {
+        right: -40rem;
+      }
+    }
+
+    :global(.contactTitle) {
+      margin-bottom: var(--s-32) !important;
+    }
+
+    :global(.contactDescription) {
+      margin-bottom: var(--s-24) !important;
+    }
+
+    .founders {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-24);
+      margin-top: var(--s-32);
+
+      @include media-min('sm') {
+        flex-direction: row;
+        gap: var(--s-64);
+        margin-top: 14rem;
+      }
+    }
+
+    .founder {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-24);
+    }
+
+    .founderInfo {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s-12);
+    }
+
+    .founderImage {
+      flex-shrink: 0;
+
+      width: 10rem;
+      height: 10rem;
+      border-radius: 50%;
+
+      object-fit: cover;
+    }
+
+    .founderLink {
+      color: var(--text);
+      text-decoration: none;
+
+      &:hover {
+        color: var(--gray-1200);
+      }
+    }
+
+    .buttonContainer {
+      margin-top: var(--s-32);
+    }
+  </style>
+</div>

@@ -1,0 +1,77 @@
+---
+import MainLayout from '~layouts/MainLayout.astro';
+import Typography from '~components/ui/Typography.astro';
+import Button from '~components/ui/Button.astro';
+---
+
+<MainLayout
+  title="404 - Page Not Found | devtimate"
+  description="The page you're looking for doesn't exist."
+>
+  <section class="notFound">
+    <div class="content">
+      <Typography tag="h1" styling="headingL">404</Typography>
+      <Typography tag="h2" styling="headingM">Page Not Found</Typography>
+      <Typography tag="p" styling="paragraphL" color="gray1000">
+        The page you're looking for doesn't exist or has been moved.
+      </Typography>
+
+      <div class="actions">
+        <Button href="/" variant="primary"> Go to Homepage </Button>
+        <Button href="/academy" variant="secondary"> Go to Academy </Button>
+      </div>
+    </div>
+  </section>
+</MainLayout>
+
+<style lang="scss">
+  @use '~styles/mixins/media' as *;
+
+  .notFound {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: calc(100vh - 200px);
+    padding: 3rem 1rem;
+
+    text-align: center;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-16);
+    align-items: center;
+
+    max-width: 600px;
+
+    h1 {
+      margin: 0;
+      font-size: 8rem;
+      line-height: 1;
+      color: var(--primary);
+
+      @include media-min('sm') {
+        font-size: 12rem;
+      }
+    }
+
+    h2 {
+      margin: 0;
+    }
+
+    p {
+      margin-bottom: var(--s-16);
+    }
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-16);
+    justify-content: center;
+
+    margin-top: var(--s-24);
+  }
+</style>

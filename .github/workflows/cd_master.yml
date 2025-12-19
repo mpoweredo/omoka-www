@@ -1,0 +1,20 @@
+name: devtimate WWW CD
+
+on:
+  push:
+    branches: 
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy to devtimate WWW Master
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        port: ${{ secrets.PORT }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        password: ${{ secrets.PASSWORD }}
+        script: 'eval "$(cat ~/.bashrc | tail -n +10)" && cd /var/www/omoka-www && sudo git pull && sudo docker compose up --build -d'

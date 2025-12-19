@@ -1,0 +1,549 @@
+---
+import Button from '~components/ui/Button.astro';
+import Typography from '~components/ui/Typography.astro';
+import List from 'phosphor-astro/List.astro';
+import X from 'phosphor-astro/X.astro';
+import { PAGES } from '~consts/pages';
+import { SECTIONS } from '~consts/sections';
+import MegaNav from '~components/shared/MegaNav.astro';
+---
+
+<div class="container">
+  <header>
+    <div class="content">
+      <a href="/">
+        <svg
+          width="135"
+          height="22"
+          viewBox="0 0 135 22"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M6.752 21.252C5.78133 21.252 4.904 21.0933 4.12 20.776C3.35467 20.4587 2.692 20.0107 2.132 19.432C1.572 18.8533 1.14267 18.1533 0.844 17.332C0.545333 16.5107 0.396 15.6053 0.396 14.616V12.46C0.396 11.1347 0.657333 9.97733 1.18 8.988C1.70267 7.98 2.44 7.20533 3.392 6.664C4.344 6.104 5.464 5.824 6.752 5.824C7.83467 5.824 8.796 6.03867 9.636 6.468C10.4947 6.87867 11.1293 7.45733 11.54 8.204H11.708V0.587999H15.628V21H12.072L11.708 18.844H11.54C11.1293 19.6093 10.4947 20.2067 9.636 20.636C8.796 21.0467 7.83467 21.252 6.752 21.252ZM8.124 18.34C8.94533 18.34 9.664 18.1533 10.28 17.78C10.9147 17.4067 11.3907 16.884 11.708 16.212V10.836C11.3907 10.1827 10.9147 9.66933 10.28 9.296C9.664 8.92267 8.94533 8.736 8.124 8.736C7.37733 8.736 6.73333 8.876 6.192 9.156C5.65067 9.41733 5.22133 9.8 4.904 10.304C4.60533 10.7893 4.456 11.396 4.456 12.124V14.952C4.456 15.6427 4.60533 16.2493 4.904 16.772C5.22133 17.2947 5.65067 17.6867 6.192 17.948C6.73333 18.2093 7.37733 18.34 8.124 18.34ZM24.784 21.28C23.608 21.28 22.5347 21.1213 21.564 20.804C20.612 20.468 19.8 20.0013 19.128 19.404C18.456 18.788 17.9333 18.0507 17.56 17.192C17.2053 16.3333 17.028 15.3627 17.028 14.28V12.768C17.028 11.3307 17.3453 10.0987 17.98 9.072C18.6147 8.02667 19.5107 7.224 20.668 6.664C21.844 6.08533 23.216 5.796 24.784 5.796C25.9227 5.796 26.9493 5.964 27.864 6.3C28.7973 6.61733 29.5907 7.07467 30.244 7.672C30.8973 8.26933 31.4013 8.99733 31.756 9.856C32.1107 10.696 32.288 11.6387 32.288 12.684V14.504H20.416V12.152H28.676L28.312 12.6V11.62C28.312 10.9853 28.1627 10.444 27.864 9.996C27.584 9.52933 27.1827 9.17467 26.66 8.932C26.1373 8.67067 25.512 8.54 24.784 8.54C24.0187 8.54 23.356 8.68 22.796 8.96C22.236 9.22133 21.8067 9.59467 21.508 10.08C21.2093 10.5467 21.06 11.0973 21.06 11.732V15.316C21.06 15.9507 21.2093 16.5107 21.508 16.996C21.8253 17.4813 22.264 17.8547 22.824 18.116C23.4027 18.3773 24.0747 18.508 24.84 18.508C25.7733 18.508 26.5387 18.3307 27.136 17.976C27.752 17.6027 28.144 17.0893 28.312 16.436H32.148C31.98 17.444 31.56 18.312 30.888 19.04C30.216 19.7493 29.3573 20.3 28.312 20.692C27.2667 21.084 26.0907 21.28 24.784 21.28ZM37.7528 21L31.9568 6.076H35.9888L39.6008 16.184L40.0768 17.92H40.2728L40.7208 16.184L44.3608 6.076H48.3928L42.6248 21H37.7528ZM54.347 21C53.507 21 52.8536 20.7947 52.387 20.384C51.9203 19.9733 51.687 19.348 51.687 18.508V1.932H55.579V17.892H58.715V21H54.347ZM49.167 9.016V6.076H58.603V9.016H49.167ZM60.1298 21V6.076H64.0218V21H60.1298ZM60.1298 4.032V0.447999H64.0498V4.032H60.1298ZM65.9891 21V6.076H69.4891L69.8811 8.204H70.0491C70.6091 7.43867 71.3184 6.85067 72.1771 6.44C73.0357 6.02933 73.9691 5.824 74.9771 5.824C76.1717 5.824 77.1891 6.06667 78.0291 6.552C78.8877 7.03733 79.5131 7.74667 79.9051 8.68H80.1291C80.6704 7.784 81.4171 7.084 82.3691 6.58C83.3211 6.076 84.3757 5.824 85.5331 5.824C86.6904 5.824 87.6704 6.048 88.4731 6.496C89.2944 6.92533 89.9104 7.56 90.3211 8.4C90.7504 9.24 90.9651 10.2667 90.9651 11.48V21H87.0731V11.956C87.0731 11.2653 86.9517 10.6867 86.7091 10.22C86.4664 9.75333 86.1211 9.408 85.6731 9.184C85.2437 8.94133 84.7024 8.82 84.0491 8.82C83.5077 8.82 83.0037 8.91333 82.5371 9.1C82.0891 9.28667 81.6784 9.548 81.3051 9.884C80.9504 10.2013 80.6517 10.584 80.4091 11.032C80.4091 11.1627 80.4091 11.2933 80.4091 11.424C80.4091 11.5547 80.4091 11.6853 80.4091 11.816V21H76.5451V11.956C76.5451 11.2653 76.4237 10.6867 76.1811 10.22C75.9384 9.75333 75.5931 9.408 75.1451 9.184C74.6971 8.94133 74.1557 8.82 73.5211 8.82C72.7184 8.82 71.9997 9.02533 71.3651 9.436C70.7491 9.828 70.2544 10.3693 69.8811 11.06V21H65.9891ZM98.7556 21.252C97.7663 21.252 96.8796 21.0933 96.0956 20.776C95.3303 20.4587 94.6676 20.0107 94.1076 19.432C93.5476 18.8533 93.1183 18.1533 92.8196 17.332C92.521 16.5107 92.3716 15.6053 92.3716 14.616V12.46C92.3716 11.1347 92.633 9.97733 93.1556 8.988C93.6783 7.98 94.4156 7.20533 95.3676 6.664C96.3196 6.104 97.449 5.824 98.7556 5.824C99.8196 5.824 100.772 6.03867 101.612 6.468C102.47 6.87867 103.105 7.45733 103.516 8.204H103.684L104.048 6.076H107.604V21H104.048L103.684 18.844H103.516C103.105 19.6093 102.47 20.2067 101.612 20.636C100.772 21.0467 99.8196 21.252 98.7556 21.252ZM100.1 18.34C100.921 18.34 101.64 18.1533 102.256 17.78C102.89 17.4067 103.366 16.884 103.684 16.212V10.836C103.366 10.1827 102.89 9.66933 102.256 9.296C101.64 8.92267 100.921 8.736 100.1 8.736C99.353 8.736 98.709 8.876 98.1676 9.156C97.6263 9.41733 97.197 9.8 96.8796 10.304C96.581 10.7893 96.4316 11.396 96.4316 12.124V14.952C96.4316 15.6427 96.581 16.2493 96.8796 16.772C97.197 17.2947 97.6263 17.6867 98.1676 17.948C98.709 18.2093 99.353 18.34 100.1 18.34ZM113.96 21C113.12 21 112.466 20.7947 112 20.384C111.533 19.9733 111.3 19.348 111.3 18.508V1.932H115.192V17.892H118.328V21H113.96ZM108.78 9.016V6.076H118.216V9.016H108.78ZM126.666 21.28C125.49 21.28 124.416 21.1213 123.446 20.804C122.494 20.468 121.682 20.0013 121.01 19.404C120.338 18.788 119.815 18.0507 119.442 17.192C119.087 16.3333 118.91 15.3627 118.91 14.28V12.768C118.91 11.3307 119.227 10.0987 119.862 9.072C120.496 8.02667 121.392 7.224 122.55 6.664C123.726 6.08533 125.098 5.796 126.666 5.796C127.804 5.796 128.831 5.964 129.746 6.3C130.679 6.61733 131.472 7.07467 132.126 7.672C132.779 8.26933 133.283 8.99733 133.638 9.856C133.992 10.696 134.17 11.6387 134.17 12.684V14.504H122.298V12.152H130.558L130.194 12.6V11.62C130.194 10.9853 130.044 10.444 129.746 9.996C129.466 9.52933 129.064 9.17467 128.542 8.932C128.019 8.67067 127.394 8.54 126.666 8.54C125.9 8.54 125.238 8.68 124.678 8.96C124.118 9.22133 123.688 9.59467 123.39 10.08C123.091 10.5467 122.942 11.0973 122.942 11.732V15.316C122.942 15.9507 123.091 16.5107 123.39 16.996C123.707 17.4813 124.146 17.8547 124.706 18.116C125.284 18.3773 125.956 18.508 126.722 18.508C127.655 18.508 128.42 18.3307 129.018 17.976C129.634 17.6027 130.026 17.0893 130.194 16.436H134.03C133.862 17.444 133.442 18.312 132.77 19.04C132.098 19.7493 131.239 20.3 130.194 20.692C129.148 21.084 127.972 21.28 126.666 21.28Z"
+            fill="#15161A"></path>
+        </svg>
+      </a>
+
+      <div class="links">
+        <!-- Product link with popover trigger -->
+        <div class="productTrigger" id="productTrigger">
+          <Typography tag="span" styling="paragraphS">Product</Typography>
+        </div>
+        <a href={`/#${SECTIONS.WHY_US}`}>
+          <Typography tag="span" styling="paragraphS">Why us</Typography>
+        </a>
+        <a href={`/#${SECTIONS.PRICING}`}>
+          <Typography tag="span" styling="paragraphS">Pricing</Typography>
+        </a>
+        <a href={`/#${SECTIONS.CONTACT}`}>
+          <Typography tag="span" styling="paragraphS">Contact</Typography>
+        </a>
+        <a href={`${PAGES.ACADEMY}`}>
+          <Typography tag="span" styling="paragraphS">Academy</Typography>
+        </a>
+      </div>
+
+      <!-- Floating Product Popover -->
+      <div class="productPopover" id="productPopover" role="menu">
+        <MegaNav />
+      </div>
+
+      <div class="buttons">
+        <Button href="https://app.devtimate.com/sign-up" variant="secondary">
+          Try for free
+        </Button>
+        <Button
+          href="https://meetings-eu1.hubspot.com/tommy-phan"
+          variant="primary">Get a demo</Button
+        >
+      </div>
+
+      <!-- Hamburger button for mobile -->
+      <button class="hamburger" aria-label="Toggle menu" id="hamburgerBtn">
+        <List width={24} height={24} class="iconHamburger" />
+        <X width={24} height={24} class="iconClose" />
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile menu overlay -->
+  <div class="mobileMenu" id="mobileMenu">
+    <nav class="mobileNav">
+      <a href={`/#${SECTIONS.WHY_US}`} class="mobileLink">
+        <Typography tag="span" styling="headingL">Why us</Typography>
+      </a>
+      <button class="mobileLink mobileProductTrigger" id="mobileProductTrigger">
+        <Typography tag="span" styling="headingL">Product</Typography>
+      </button>
+      <a href={`/#${SECTIONS.PRICING}`} class="mobileLink">
+        <Typography tag="span" styling="headingL">Pricing</Typography>
+      </a>
+      <a href={`/#${SECTIONS.CONTACT}`} class="mobileLink">
+        <Typography tag="span" styling="headingL">Contact</Typography>
+      </a>
+      <a href={`${PAGES.ACADEMY}`} class="mobileLink">
+        <Typography tag="span" styling="headingL">Academy</Typography>
+      </a>
+
+      <div class="mobileButtons">
+        <Button href="https://app.devtimate.com/sign-up" variant="secondary">
+          Try for free
+        </Button>
+        <Button
+          href="https://meetings-eu1.hubspot.com/tommy-phan"
+          variant="primary">Get a demo</Button
+        >
+      </div>
+    </nav>
+
+    <!-- Mobile MegaNav -->
+    <div class="mobileMegaNav" id="mobileMegaNav">
+      <MegaNav />
+    </div>
+  </div>
+</div>
+
+<style lang="scss">
+  @use '~styles/mixins/media' as *;
+
+  .container {
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 100%;
+    max-width: 100%;
+
+    background-color: var(--background);
+  }
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    max-width: calc(var(--max-width) + var(--s-16) * 2);
+    margin: 0 auto;
+    padding: var(--s-12) var(--s-16);
+
+    background: var(--background);
+  }
+
+  .content {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+  }
+
+  // Product trigger wrapper
+  .productTrigger {
+    cursor: default;
+    position: relative;
+  }
+
+  // Floating Popover Styles - centered on screen
+  .productPopover {
+    pointer-events: none;
+
+    position: fixed;
+    z-index: 200;
+    top: 100%; // Will be set by JS to be below header
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: max-content;
+    max-width: calc(100vw - var(--s-32));
+
+    opacity: 0;
+
+    transition: opacity 0.15s ease;
+
+    &.visible {
+      pointer-events: auto;
+      opacity: 1;
+    }
+
+    // Hide on mobile
+    @media (width <= 900px) {
+      display: none;
+    }
+  }
+
+  .links {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex;
+    gap: var(--s-20);
+
+    width: fit-content;
+
+    & * {
+      color: var(--gray-1000);
+      text-decoration: none;
+
+      &:hover {
+        color: var(--gray-1200);
+      }
+    }
+
+    // Hide desktop links on mobile
+    @media (width <= 900px) {
+      display: none;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    gap: var(--s-12);
+
+    // Hide desktop buttons on mobile
+    @media (width <= 900px) {
+      display: none;
+    }
+  }
+
+  // Hamburger button
+  .hamburger {
+    cursor: pointer;
+
+    display: none;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    width: 4rem;
+    height: 4rem;
+    padding: 0;
+    border: none;
+
+    background: transparent;
+
+    .iconClose {
+      display: none;
+    }
+
+    &[aria-expanded='true'] {
+      .iconHamburger {
+        display: none;
+      }
+
+      .iconClose {
+        display: block;
+      }
+    }
+
+    // Show hamburger on mobile only
+    @media (width <= 900px) {
+      display: flex;
+    }
+  }
+
+  // Mobile menu overlay
+  .mobileMenu {
+    pointer-events: none;
+
+    position: fixed;
+    z-index: 99;
+    top: 0;
+    left: 0;
+
+    overflow-y: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    padding: var(--s-16);
+
+    opacity: 0;
+    background: var(--background);
+
+    transition: opacity 0.3s ease;
+
+    &.active {
+      pointer-events: all;
+      opacity: 1;
+    }
+
+    // Only show on mobile
+    @media (width >= 901px) {
+      display: none;
+    }
+  }
+
+  .mobileNav {
+    transform: translateY(2rem);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-40);
+    align-items: flex-start;
+
+    width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    padding-top: 8rem;
+
+    opacity: 0;
+
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
+
+    .mobileMenu.active & {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .mobileLink {
+    cursor: pointer;
+
+    width: 100%;
+    padding: 0;
+    border: none;
+
+    color: var(--gray-1000);
+    text-align: left;
+    text-decoration: none;
+
+    background: transparent;
+
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--gray-600);
+    }
+  }
+
+  .mobileProductTrigger {
+    display: block;
+  }
+
+  .mobileButtons {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-12);
+
+    width: 100%;
+    margin-top: auto;
+    padding-top: var(--s-40);
+  }
+
+  // Mobile MegaNav
+  .mobileMegaNav {
+    pointer-events: none;
+
+    position: fixed;
+    z-index: 100;
+    top: 0;
+    left: 0;
+    transform: translateX(100%);
+
+    overflow-y: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    padding: var(--s-16);
+
+    opacity: 0;
+    background: var(--background);
+
+    transition: opacity 0.3s ease;
+
+    &.active {
+      pointer-events: all;
+      transform: translateX(0);
+      opacity: 1;
+    }
+
+    // Only show on mobile
+    @media (width >= 901px) {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // ===============================
+  // FLOATING POPOVER LOGIC (centered with arrow pointing to trigger)
+  // ===============================
+  const productTrigger = document.getElementById('productTrigger');
+  const productPopover = document.getElementById('productPopover');
+  const popoverArrow = document.querySelector('.popoverArrow') as HTMLElement;
+  const header = document.querySelector('header');
+
+  // Track hover state
+  let isOverTrigger = false;
+  let isOverPopover = false;
+  let hideTimeout: ReturnType<typeof setTimeout> | null = null;
+
+  // Update popover and arrow position
+  const updatePopoverPosition = () => {
+    if (!productPopover || !header || !productTrigger || !popoverArrow) return;
+
+    // Set vertical position below header
+    const headerRect = header.getBoundingClientRect();
+    productPopover.style.top = `${headerRect.bottom}px`;
+
+    // Calculate arrow position to point at trigger center
+    // Popover is centered via CSS (left: 50%, transform: translateX(-50%))
+    const triggerRect = productTrigger.getBoundingClientRect();
+    const popoverRect = productPopover.getBoundingClientRect();
+    const triggerCenterX = triggerRect.left + triggerRect.width / 2;
+    const arrowLeft =
+      triggerCenterX - popoverRect.left - popoverArrow.offsetWidth / 2;
+
+    popoverArrow.style.left = `${arrowLeft}px`;
+    popoverArrow.style.transform = 'rotate(45deg)';
+  };
+
+  // Show popover
+  const showPopover = () => {
+    if (hideTimeout) {
+      clearTimeout(hideTimeout);
+      hideTimeout = null;
+    }
+
+    // First make visible (but opacity 0 via CSS transition)
+    productPopover?.classList.add('visible');
+
+    // Wait for layout, then position arrow
+    requestAnimationFrame(() => {
+      updatePopoverPosition();
+    });
+  };
+
+  // Hide popover with delay
+  const hidePopover = () => {
+    hideTimeout = setTimeout(() => {
+      if (!isOverTrigger && !isOverPopover) {
+        productPopover?.classList.remove('visible');
+      }
+    }, 100);
+  };
+
+  // Trigger hover events
+  productTrigger?.addEventListener('mouseenter', () => {
+    isOverTrigger = true;
+    showPopover();
+  });
+
+  productTrigger?.addEventListener('mouseleave', () => {
+    isOverTrigger = false;
+    hidePopover();
+  });
+
+  // Popover hover events (keeps popover open when hovering over it)
+  productPopover?.addEventListener('mouseenter', () => {
+    isOverPopover = true;
+    showPopover();
+  });
+
+  productPopover?.addEventListener('mouseleave', () => {
+    isOverPopover = false;
+    hidePopover();
+  });
+
+  // Handle keyboard navigation (focus)
+  productTrigger?.querySelector('a')?.addEventListener('focus', showPopover);
+  productTrigger?.querySelector('a')?.addEventListener('blur', () => {
+    isOverTrigger = false;
+    hidePopover();
+  });
+
+  // ===============================
+  // MOBILE MENU TOGGLE LOGIC
+  // ===============================
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileLinks = document.querySelectorAll('.mobileLink');
+  const mobileProductTrigger = document.getElementById('mobileProductTrigger');
+  const mobileMegaNav = document.getElementById('mobileMegaNav');
+
+  // Toggle menu open/close
+  const toggleMenu = () => {
+    const isOpen = hamburgerBtn?.getAttribute('aria-expanded') === 'true';
+    hamburgerBtn?.setAttribute('aria-expanded', String(!isOpen));
+    mobileMenu?.classList.toggle('active');
+
+    // Prevent body scroll when menu is open
+    if (!isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      // Close MegaNav if open
+      mobileMegaNav?.classList.remove('active');
+    }
+  };
+
+  // Close menu
+  const closeMenu = () => {
+    hamburgerBtn?.setAttribute('aria-expanded', 'false');
+    mobileMenu?.classList.remove('active');
+    mobileMegaNav?.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  // Open menu on hamburger click
+  hamburgerBtn?.addEventListener('click', toggleMenu);
+
+  // Handle Product click in mobile menu - show MegaNav
+  mobileProductTrigger?.addEventListener('click', (e) => {
+    e.preventDefault();
+    mobileMegaNav?.classList.add('active');
+  });
+
+  // Close MegaNav when clicking outside
+  mobileMegaNav?.addEventListener('click', (e) => {
+    if (e.target === mobileMegaNav) {
+      mobileMegaNav?.classList.remove('active');
+    }
+  });
+
+  // Close menu when clicking on a link (but not Product trigger)
+  mobileLinks.forEach((link) => {
+    if (link !== mobileProductTrigger) {
+      link.addEventListener('click', closeMenu);
+    }
+  });
+
+  // Close menu when clicking outside
+  mobileMenu?.addEventListener('click', (e) => {
+    if (e.target === mobileMenu) {
+      closeMenu();
+    }
+  });
+
+  // Close menu and MegaNav on escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      // Close desktop popover
+      productPopover?.classList.remove('visible');
+
+      // Close mobile MegaNav
+      if (mobileMegaNav?.classList.contains('active')) {
+        mobileMegaNav?.classList.remove('active');
+      }
+      // Close mobile menu
+      else if (mobileMenu?.classList.contains('active')) {
+        closeMenu();
+      }
+    }
+  });
+</script>

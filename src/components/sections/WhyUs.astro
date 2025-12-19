@@ -1,0 +1,100 @@
+---
+import Button from '~components/ui/Button.astro';
+import Typography from '~components/ui/Typography.astro';
+
+import { SECTIONS } from '~consts/sections';
+import HighlightedText, {
+  type HighlightedTextProps,
+} from '~components/ui/HighlightedText.astro';
+import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
+
+interface Props {
+  title: HighlightedTextProps;
+  cardsData: {
+    icon: AstroComponentFactory;
+    title: string;
+    description: string;
+  }[];
+}
+
+const { cardsData, title } = Astro.props as Props;
+---
+
+<section id={SECTIONS.WHY_US} class="container">
+  <div class="text">
+    <Typography align="center" tag="h2" styling="headingM">
+      <HighlightedText {...title} />
+    </Typography>
+  </div>
+
+  <Button href="https://app.devtimate.com/sign-up" variant="secondary">
+    Start free for 14 days
+  </Button>
+
+  <div class="cards">
+    {
+      cardsData.map((card) => (
+        <div class="card">
+          <div class="cardIcon">
+            <card.icon fill="var(--primary)" width={32} height={32} />
+          </div>
+
+          <div class="cardTexts">
+            <Typography tag="h3" styling="headingXs">
+              {card.title}
+            </Typography>
+            <Typography tag="p" styling="paragraphS">
+              {card.description}
+            </Typography>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style lang="scss">
+  @use '~styles/mixins/media' as *;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: var(--section-gap);
+  }
+
+  .text {
+    max-width: 640px;
+    margin-bottom: var(--s-32);
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: var(--s-32);
+    margin-top: var(--s-64);
+
+    @include media-min('sm') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include media-min('md') {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .cardIcon {
+    width: fit-content;
+    margin-bottom: var(--s-20);
+    padding: var(--s-8);
+    border-radius: var(--radius-8);
+
+    background: var(--gray-100);
+  }
+
+  .cardTexts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-16);
+  }
+</style>

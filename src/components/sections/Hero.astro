@@ -1,0 +1,166 @@
+---
+import Button from '~components/ui/Button.astro';
+import Typography from '~components/ui/Typography.astro';
+import HighlightedText, {
+  type HighlightedTextProps,
+} from '~components/ui/HighlightedText.astro';
+import Sjson from '~assets/features/xpp.json';
+
+interface Props {
+  title: HighlightedTextProps;
+  description: string;
+  heroVideo: string;
+}
+
+const { title, description, heroVideo } = Astro.props as Props;
+---
+
+<script src="https://cdn.lottielab.com/s/lottie-player@1.x/player-web.min.js"
+></script>
+
+<script>
+  // Hide SVG inside lottie-player shadow DOM
+  const hideLottieSvg = () => {
+    const player = document.querySelector('.lottieplayer');
+    if (player?.shadowRoot) {
+      const svg = player.shadowRoot.querySelector('svg > g > g:last-child');
+      if (svg) {
+        svg.style.display = 'none';
+      }
+    }
+  };
+
+  // Wait for lottie-player to be ready
+  const player = document.querySelector('.lottieplayer');
+  if (player) {
+    player.addEventListener('load', hideLottieSvg);
+    // Fallback - try after short delay if load event doesn't fire
+    setTimeout(hideLottieSvg, 500);
+  }
+</script>
+
+<div class="container">
+  <section class="hero">
+    <div class="texts">
+      <Typography tag="h1" align="center">
+        <HighlightedText {...title} />
+      </Typography>
+      <div class="description">
+        <Typography color="gray900" tag="p" styling="paragraphL" align="center">
+          <Fragment set:html={description.replace(/\n/g, '<br />')} />
+        </Typography>
+      </div>
+    </div>
+
+    <lottie-player
+      class="lottieplayer"
+      src={'/src/assets/features/xpp.json'}
+      autoplay
+      loop
+    >
+    </lottie-player>
+
+    <div class="buttons">
+      <Button href="https://app.devtimate.com/sign-up" variant="secondary">
+        Start free for 14 days
+      </Button>
+      <Button href="https://app.devtimate.com/live-demo" variant="primary">
+        Interactive demo
+      </Button>
+    </div>
+
+    <div class="heroImage">
+      <div class="heroImageInner">
+        <video src={heroVideo} autoplay loop muted playsinline></video>
+      </div>
+    </div>
+  </section>
+</div>
+
+<style lang="scss">
+  .container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    min-height: 100vh;
+  }
+
+  .container::before {
+    pointer-events: none;
+    content: '';
+
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+
+    background-color: transparent;
+    background-image: radial-gradient(var(--gray-300) 1px, transparent 1px);
+    background-size: 14px 14px;
+
+    mask-image: linear-gradient(
+      to bottom,
+      transparent 0%,
+      black 60%,
+      transparent 120%
+    );
+  }
+
+  .hero {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-32);
+    align-items: center;
+
+    width: 100%;
+    max-width: var(--max-width);
+    min-height: 100vh;
+    margin: 0 auto;
+    padding-top: 220px;
+  }
+
+  .texts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-16);
+    align-items: center;
+  }
+
+  .description {
+    max-width: 640px;
+  }
+
+  .buttons {
+    display: flex;
+    gap: var(--s-12);
+  }
+
+  .heroImage {
+    width: 100%;
+    margin: 0;
+    margin-top: var(--s-64);
+    padding: var(--s-10);
+    border: 2px solid var(--gray-200);
+    border-radius: 2rem;
+
+    background-color: var(--gray-100);
+
+    & video {
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--gray-300);
+      border-radius: var(--radius-16);
+    }
+  }
+
+  .lottieplayer {
+    width: 100%;
+    height: 100%;
+
+    & svg {
+      display: none;
+    }
+  }
+</style>

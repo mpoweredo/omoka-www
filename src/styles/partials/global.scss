@@ -1,0 +1,25 @@
+@use './typography' as *;
+
+:root {
+  font-family: Grotesk, sans-serif;
+
+  // default 10px font size on normal screen size
+  font-size: clamp(0.5rem, 0.24vw + 0.44rem, 0.625rem);
+  color: var(--text);
+  overflow-wrap: break-word;
+}
+
+body > * {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  background-color: var(--background);
+}
+
+body {
+  padding: 0 var(--s-16);
+}
+
+// Scroll offset for fixed header
+section[id] {
+  scroll-margin-top: 10rem; // Adjust this value based on your header height
+}

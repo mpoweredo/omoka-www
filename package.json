@@ -1,0 +1,36 @@
+{
+  "name": "app",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "css-types:build": "typed-scss-modules src/styles",
+    "css-types:watch": "pnpm css-types:build -w --ignoreInitial",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.6.0",
+    "@floating-ui/dom": "^1.7.4",
+    "astro": "^5.14.1",
+    "phosphor-astro": "^2.1.0",
+    "sass": "^1.93.2",
+    "sharp": "^0.34.4"
+  },
+  "packageManager": "pnpm@9.14.2+sha512.6e2baf77d06b9362294152c851c4f278ede37ab1eba3a55fda317a4a17b209f4dbb973fb250a77abc463a341fcb1f17f17cfa24091c4eb319cda0d9b84278387",
+  "devDependencies": {
+    "@typescript-eslint/parser": "^8.45.0",
+    "eslint": "^9.36.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "postcss-html": "^1.8.0",
+    "prettier": "^3.6.2",
+    "prettier-plugin-astro": "0.14.1",
+    "stylelint": "^16.25.0",
+    "stylelint-config-clean-order": "^7.0.0",
+    "stylelint-config-html": "^1.1.0",
+    "stylelint-config-standard-scss": "^16.0.0",
+    "stylelint-order": "^7.0.0",
+    "typed-scss-modules": "^8.1.1"
+  }
+}

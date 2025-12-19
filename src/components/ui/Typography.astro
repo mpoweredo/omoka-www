@@ -1,0 +1,83 @@
+---
+import type { ProjectColors } from '~types/colors';
+
+type TypographyTags =
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'h4'
+  | 'h5'
+  | 'h6'
+  | 'p'
+  | 'label'
+  | 'span';
+type Styling =
+  | 'headingXl'
+  | 'headingL'
+  | 'headingM'
+  | 'headingS'
+  | 'headingXs'
+  | 'bodyL'
+  | 'bodyM'
+  | 'bodyS'
+  | 'paragraphL'
+  | 'paragraphM'
+  | 'paragraphS';
+
+interface Props {
+  tag: TypographyTags;
+  styling?: Styling;
+  color?: ProjectColors;
+  class?: string;
+  style?: string;
+  align?: 'left' | 'center' | 'right';
+}
+
+const map: Record<TypographyTags, Styling> = {
+  h1: 'headingXl',
+  h2: 'headingL',
+  h3: 'headingM',
+  h4: 'headingS',
+  h5: 'headingXs',
+  h6: 'headingXs',
+  p: 'paragraphL',
+  label: 'paragraphL',
+  span: 'paragraphL',
+};
+
+const {
+  tag,
+  styling,
+  color,
+  class: className,
+  style,
+  align,
+} = Astro.props as Props;
+const Element = tag;
+const elementStyle = styling ?? map[tag];
+---
+
+<Element
+  class:list={[className, elementStyle, color, 'container', align]}
+  style={style}
+>
+  <slot />
+</Element>
+
+<style>
+  .container {
+    margin: 0;
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .left {
+    text-align: left;
+  }
+
+  .right {
+    text-align: right;
+  }
+</style>

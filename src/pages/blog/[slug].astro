@@ -1,0 +1,185 @@
+---
+import MainLayout from '~layouts/MainLayout.astro';
+import { getCollection } from 'astro:content';
+import '~styles/partials/markdown.scss';
+import type { CollectionEntry } from 'astro:content';
+import ArrowLeft from 'phosphor-astro/ArrowLeft.astro';
+import Typography from '~components/ui/Typography.astro';
+import { Image } from 'astro:assets';
+import AuthorCard from '~components/shared/AuthorCard.astro';
+
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  '/src/assets/blog/*.{jpeg,jpg,png,gif,webp}',
+);
+
+export async function getStaticPaths() {
+  const blogPosts = (await getCollection('blog')) as CollectionEntry<'blog'>[];
+  return blogPosts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+type Props = {
+  post: CollectionEntry<'blog'>;
+};
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+// Load cover image if available
+const imagePath = `/src/assets/blog/${post.data.coverImage}`;
+const imageModule = post.data.coverImage ? await images[imagePath]() : null;
+
+// Format date helper
+const formatDate = (date: Date) => {
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+};
+
+// Build cover image URL for OG/Twitter (use cover image from frontmatter if available)
+const ogImageUrl = post.data.coverImage
+  ? `/src/assets/blog/${post.data.coverImage}`
+  : undefined;
+
+// Get canonical URL (use frontmatter canonical or fallback to seo.ogUrl)
+const canonicalUrl = post.data.canonical || post.data.seo?.ogUrl;
+
+// Get OG type (default to 'article' for blog posts)
+const ogType = post.data.seo?.ogType || 'article';
+
+// Get Twitter card type
+const twitterCard = post.data.seo?.twitterCard || 'summary_large_image';
+---
+
+<MainLayout
+  title={`${post.data.title} | devtimate Blog`}
+  description={post.data.description}
+  canonical={canonicalUrl}
+  ogImage={ogImageUrl}
+  ogType={ogType}
+  ogUrl={post.data.seo?.ogUrl}
+  twitterCard={twitterCard}
+  jsonLd={post.data.schema}
+>
+  <article class="markdown" aria-labelledby="post-title">
+    <div class="postHeader">
+      <a href="/blog" class="backButton">
+        <ArrowLeft width={'2.6rem'} height={'2.6rem'} />
+
+        <Typography class="backButtonText" tag="span" styling="bodyL">
+          Back to Blog
+        </Typography>
+      </a>
+
+      <div class="postMeta">
+        <Typography color="gray1000" tag="span" styling="paragraphS">
+          {formatDate(post.data.publishedAt)}
+        </Typography>
+
+        {
+          post.data.readingTime && (
+            <>
+              <span class="metaSeparator">•</span>
+              <Typography color="gray1000" tag="span" styling="paragraphS">
+                {post.data.readingTime}
+              </Typography>
+            </>
+          )
+        }
+      </div>
+
+      <h1 id="post-title">{post.data.title}</h1>
+      <p class="description">{post.data.description}</p>
+
+      {
+        imageModule && (
+          <Image
+            class="coverImage"
+            src={imageModule.default}
+            alt={post.data.title}
+            inferSize={true}
+          />
+        )
+      }
+    </div>
+
+    <div class="post-content">
+      <Content />
+    </div>
+
+    <AuthorCard authorKey={post.data.author} />
+
+    <div class="postFooter">
+      <a href="/blog" class="backButton">
+        <ArrowLeft width={'2.6rem'} height={'2.6rem'} />
+
+        <Typography class="backButtonText" tag="span" styling="bodyL">
+          Back to Blog
+        </Typography>
+      </a>
+    </div>
+  </article>
+</MainLayout>
+
+<style lang="scss">
+  article {
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: 100px;
+    padding: var(--s-16);
+  }
+
+  .postFooter {
+    margin-top: var(--s-32);
+  }
+
+  .postHeader {
+    .postMeta {
+      display: flex;
+      gap: var(--s-8);
+      align-items: center;
+
+      margin-top: var(--s-16);
+      margin-bottom: var(--s-16);
+
+      .metaSeparator {
+        font-size: 1rem;
+        font-weight: bold;
+        color: var(--gray-700);
+      }
+    }
+
+    .coverImage {
+      aspect-ratio: 16 / 6;
+      width: 100%;
+      height: auto;
+      border-radius: var(--radius-12);
+
+      object-fit: cover;
+      object-position: center;
+
+      // margin-bottom: var(--s-32);
+    }
+  }
+
+  .backButton {
+    display: flex;
+    gap: var(--s-12);
+    align-items: center;
+
+    width: fit-content;
+    padding: var(--s-12) 0;
+    border-radius: var(--radius-8);
+
+    color: var(--text);
+    text-decoration: none;
+
+    :global(.backButtonText) {
+      padding-top: var(--s-2);
+    }
+  }
+</style>

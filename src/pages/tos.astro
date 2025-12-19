@@ -1,0 +1,30 @@
+---
+import MainLayout from '~layouts/MainLayout.astro';
+import { getEntry } from 'astro:content';
+import '~styles/partials/markdown.scss';
+import type { CollectionEntry } from 'astro:content';
+
+const entry = (await getEntry(
+  'legal',
+  'terms-of-service',
+)) as CollectionEntry<'legal'>;
+const { Content } = await entry.render();
+---
+
+<MainLayout
+  title={`devtimate | ${entry.data.title}`}
+  description={entry.data.description}
+>
+  <article class="markdown">
+    <Content />
+  </article>
+</MainLayout>
+
+<style lang="scss">
+  article {
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: 100px;
+    padding: var(--s-16);
+  }
+</style>

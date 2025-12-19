@@ -1,0 +1,63 @@
+---
+interface Props {
+  variant?: 'primary' | 'secondary';
+  class?: string;
+  href?: string;
+  isFullWidth?: boolean;
+}
+
+const { variant, class: className, href, isFullWidth } = Astro.props as Props;
+---
+
+<a
+  href={href}
+  target="_blank"
+  class:list={[className, 'container', variant, isFullWidth && 'fullWidth']}
+>
+  <slot />
+</a>
+
+<style>
+  .container {
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: fit-content;
+    height: 4.4rem;
+    padding: 0 var(--s-16);
+    border-radius: var(--radius-8);
+
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+
+    transition: opacity 0.2s ease-in-out;
+
+    &.fullWidth {
+      width: 100%;
+    }
+  }
+
+  .primary {
+    color: var(--background);
+    background-color: var(--primary);
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  .secondary {
+    border: 1px solid var(--gray-300);
+    color: var(--gray-1200);
+    background-color: var(--background);
+
+    &:hover {
+      border-color: var(--gray-400);
+    }
+  }
+</style>

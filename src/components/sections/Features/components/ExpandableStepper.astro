@@ -1,0 +1,148 @@
+---
+import Typography from '~components/ui/Typography.astro';
+
+interface Props {
+  items: {
+    title: string;
+    description: string;
+  }[];
+}
+
+export interface ExpandableStepperProps extends Props {}
+
+const { items } = Astro.props;
+---
+
+<div class="items">
+  {
+    items.map((item, index) => (
+      <div
+        class:list={['item', item.description && 'hasDescription']}
+        data-index={index}
+        data-active={index === 0 ? 'true' : 'false'}
+      >
+        <div class="title" role="button" tabindex="0">
+          <div class="number">
+            <Typography color="gray1200" tag="span" styling="paragraphL">
+              {index + 1}
+            </Typography>
+          </div>
+
+          <Typography tag="p" styling="bodyL">
+            {item.title}
+          </Typography>
+        </div>
+
+        {item.description && (
+          <div class="description">
+            <Typography tag="p" styling="paragraphS">
+              {item.description}
+            </Typography>
+          </div>
+        )}
+      </div>
+    ))
+  }
+</div>
+
+<script>
+  // Handle accordion behavior for instant estimates items
+  const items = document.querySelectorAll('.items .item');
+
+  items.forEach((item) => {
+    const title = item.querySelector('.title');
+
+    // Handle click on title
+    const handleClick = () => {
+      const isActive = item.getAttribute('data-active') === 'true';
+
+      // Close all items
+      items.forEach((otherItem) => {
+        otherItem.setAttribute('data-active', 'false');
+      });
+
+      // Open clicked item if it was closed
+      if (!isActive) {
+        item.setAttribute('data-active', 'true');
+      }
+    };
+
+    title?.addEventListener('click', handleClick);
+
+    // Handle keyboard navigation (Enter and Space)
+    title?.addEventListener('keydown', (e) => {
+      if (
+        (e as KeyboardEvent).key === 'Enter' ||
+        (e as KeyboardEvent).key === ' '
+      ) {
+        e.preventDefault();
+        handleClick();
+      }
+    });
+  });
+</script>
+
+<style>
+  .items {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-8);
+  }
+
+  .item {
+    display: flex;
+    flex-direction: column;
+
+    padding: var(--s-16);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--radius-8);
+
+    background-color: var(--background);
+
+    transition: border-color 0.2s ease;
+
+    .number {
+      display: grid;
+      place-items: center;
+
+      width: 3.6rem;
+      height: 3.6rem;
+      border: 1px solid var(--gray-300);
+      border-radius: var(--radius-circle);
+
+      background-color: var(--gray-100);
+    }
+
+    &.hasDescription {
+      cursor: pointer;
+    }
+
+    & .title {
+      user-select: none;
+      display: flex;
+      gap: var(--s-16);
+      align-items: center;
+    }
+
+    /* Description hidden by default */
+    & .description {
+      overflow: hidden;
+
+      max-height: 0;
+      margin-left: calc(var(--s-36) + var(--s-16));
+
+      opacity: 0;
+
+      transition:
+        opacity 0.2s ease,
+        margin-top 0.2s ease;
+    }
+
+    /* Show description when item is active */
+    &[data-active='true'] .description {
+      max-height: 200px;
+      margin-top: var(--s-2);
+      opacity: 1;
+    }
+  }
+</style>
