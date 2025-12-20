@@ -1,20 +1,41 @@
 ---
+import ArrowDownRight from 'phosphor-astro/ArrowDownRight.astro';
+
 interface Props {
   variant?: 'primary' | 'secondary';
   class?: string;
   href?: string;
   isFullWidth?: boolean;
+  withArrow?: boolean;
 }
 
-const { variant, class: className, href, isFullWidth } = Astro.props as Props;
+const {
+  variant,
+  class: className,
+  href,
+  isFullWidth,
+  withArrow,
+} = Astro.props as Props;
 ---
 
 <a
   href={href}
   target="_blank"
-  class:list={[className, 'container', variant, isFullWidth && 'fullWidth']}
+  class:list={[
+    className,
+    'button',
+    'container',
+    variant,
+    isFullWidth && 'fullWidth',
+  ]}
 >
   <slot />
+
+  {
+    withArrow && (
+      <ArrowDownRight class={'arrow'} height={'2.6rem'} width={'2.6rem'} />
+    )
+  }
 </a>
 
 <style>
@@ -22,20 +43,19 @@ const { variant, class: className, href, isFullWidth } = Astro.props as Props;
     cursor: pointer;
 
     display: flex;
+    gap: var(--s-10);
     align-items: center;
     justify-content: center;
 
     width: fit-content;
     height: 4.4rem;
-    padding: 0 var(--s-16);
-    border-radius: var(--radius-8);
+    padding: 0 var(--s-24);
+    border-radius: var(--radius-max);
 
-    font-size: 1.5rem;
-    font-weight: 500;
-    line-height: 1;
     text-decoration: none;
+    white-space: nowrap;
 
-    transition: opacity 0.2s ease-in-out;
+    transition: background-color 0.2s ease-in-out;
 
     &.fullWidth {
       width: 100%;
@@ -43,21 +63,16 @@ const { variant, class: className, href, isFullWidth } = Astro.props as Props;
   }
 
   .primary {
-    color: var(--background);
-    background-color: var(--primary);
+    color: var(--black);
+    letter-spacing: 0.45px;
+    background-color: var(--primary-500);
 
     &:hover {
-      opacity: 0.9;
+      background-color: var(--primary-400);
     }
   }
 
-  .secondary {
-    border: 1px solid var(--gray-300);
-    color: var(--gray-1200);
-    background-color: var(--background);
-
-    &:hover {
-      border-color: var(--gray-400);
-    }
+  .arrow {
+    transform: rotate(-90deg);
   }
 </style>

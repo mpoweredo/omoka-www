@@ -1,0 +1,14 @@
+// Mixin for adding side borders to sections
+@mixin section-borders($top: true, $bottom: true) {
+  width: 100%;
+  border-right: 1px solid var(--gray-800);
+  border-left: 1px solid var(--gray-800);
+
+  @if $top {
+    border-top: 1px solid var(--gray-800);
+  }
+
+  @if $bottom {
+    border-bottom: 1px solid var(--gray-800);
+  }
+}
