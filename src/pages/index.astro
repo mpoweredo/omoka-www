@@ -1,6 +1,8 @@
 ---
 import MainLayout from '~layouts/MainLayout.astro';
 import Hero from '~components/sections/Hero.astro';
+import HowItWorks from '~components/layout/HowItWorks.astro';
+import Spacer from '~components/sections/Spacer.astro';
 ---
 
 <script is:inline src="https://www.googletagmanager.com/gtag/js?id=G-KJ8MFRRJYT"
@@ -37,4 +39,7 @@ import Hero from '~components/sections/Hero.astro';
     title={'Hire omoka.\n Visual AI for QA testing.'}
     description={'omoka sees, understands, and tests your entire app \nlike a real human QA - complete with automatic bug tickets.'}
   />
+  <Spacer />
+  <HowItWorks />
+  <Spacer />
 </MainLayout>

@@ -1,0 +1,319 @@
+---
+import Typography from '~components/ui/Typography.astro';
+import Cube from 'phosphor-astro/CubeLight.astro';
+import ChatTeardropText from 'phosphor-astro/ChatTeardropTextLight.astro';
+import Scan from 'phosphor-astro/ScanLight.astro';
+import BugBeetle from 'phosphor-astro/BugBeetleLight.astro';
+---
+
+<script src="https://cdn.lottielab.com/s/lottie-player@1.x/player-web.min.js"
+></script>
+<script
+  src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.7.1/dist/dotlottie-wc.js"
+  type="module"></script>
+
+<div class="container">
+  <div class="title">
+    <Typography tag="h2" styling="headingL">
+      See how it works in practice
+    </Typography>
+  </div>
+
+  <div class="content">
+    <div class="tabs">
+      <div class="tab selected">
+        <Cube width={'3.2rem'} height={'3.2rem'} />
+        <Typography align="left" tag="h3" styling="bodyL"
+          >Context Learning</Typography
+        >
+      </div>
+      <div class="tab">
+        <ChatTeardropText width={'3.2rem'} height={'3.2rem'} />
+        <Typography align="left" tag="h3" styling="bodyL"
+          >Natural delegation</Typography
+        >
+      </div>
+      <div class="tab">
+        <Scan width={'3.2rem'} height={'3.2rem'} />
+        <Typography align="left" tag="h3" styling="bodyL"
+          >Visual simulation</Typography
+        >
+      </div>
+      <div class="tab">
+        <BugBeetle width={'3.2rem'} height={'3.2rem'} />
+        <Typography align="left" tag="h3" styling="bodyL"
+          >Smart reporting</Typography
+        >
+      </div>
+    </div>
+
+    <div class="tabContent">
+      <div class="item selected">
+        <div class="text">
+          <Typography align="left" tag="p" styling="paragraphL" color="gray300"
+            >omoka learns your app to understand unique business logic
+            instantly.
+
+            <br />
+            <br />
+            The AI agent onboards itself to skip manual configuration and test with
+            real QA awareness, avoiding the mindless clicks of standard automation.
+          </Typography>
+        </div>
+        <div class="lottie">
+          <lottie-player
+            class="lottieplayer"
+            src={'/src/assets/lottie/context.json'}
+            autoplay
+            loop
+          >
+          </lottie-player>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="text">
+          <Typography align="left" tag="p" styling="paragraphL" color="gray300">
+            Review test scenarios omoka proposes automatically or chat with the
+            AI agent to request specific tests.
+
+            <br />
+            <br />
+
+            You can simply ask to "check the login flow" and omoka turns your
+            words into actions.
+          </Typography>
+        </div>
+        <div class="lottie">
+          <lottie-player
+            class="lottieplayer"
+            src={'/src/assets/lottie/delegation.json'}
+            autoplay
+            loop
+          >
+          </lottie-player>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="text">
+          <Typography align="left" tag="p" styling="paragraphL" color="gray300"
+            >The Visual AI analyzes the screen and makes decisions in real time.
+
+            <br />
+            <br />
+            You can watch the thinking process live as omoka navigates with human-like
+            understanding instead of following a rigid script.
+          </Typography>
+        </div>
+        <div class="lottie simulation">
+          <lottie-player
+            class="lottieplayer"
+            src={'/src/assets/lottie/simulation.json'}
+            autoplay
+            loop
+          >
+          </lottie-player>
+        </div>
+      </div>
+
+      <div class="item">
+        <div class="text">
+          <Typography align="left" tag="p" styling="paragraphL" color="gray300"
+            >Receive bug tickets containing video recordings, logs, and
+            reproduction steps.
+
+            <br />
+            <br />
+            omoka tests every feature thoroughly and hunts down complex edge cases
+            that people hate testing to give clear proof of every error.
+          </Typography>
+        </div>
+        <div class="lottie">
+          <lottie-player
+            class="lottieplayer"
+            src={'/src/assets/lottie/bugs.json'}
+            autoplay
+            loop
+          >
+          </lottie-player>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style lang="scss">
+  @use '~styles/mixins/media' as *;
+
+  .container {
+    display: grid;
+    grid-template-columns: 1fr;
+
+    width: 100%;
+    height: fit-content;
+    border: 1px solid var(--gray-800);
+
+    text-align: center;
+
+    @include media-min('md') {
+      grid-template-columns: 1fr 3fr;
+      text-align: left;
+    }
+  }
+
+  .title {
+    padding: var(--s-32);
+    border-bottom: 1px solid var(--gray-800);
+    background: var(--gray-900);
+
+    @include media-min('md') {
+      border-right: 1px solid var(--gray-800);
+      border-bottom: none;
+    }
+  }
+
+  .tabs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
+    height: fit-content;
+
+    & > .tab {
+      cursor: pointer;
+      border-bottom: 1px solid var(--gray-800);
+
+      &:not(:last-child) {
+        border-right: 1px solid var(--gray-800);
+      }
+
+      &:nth-child(2) {
+        border-right: none;
+      }
+
+      @include media-min('md') {
+        &:nth-child(2) {
+          border-right: 1px solid var(--gray-800);
+        }
+      }
+    }
+
+    @include media-min('md') {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  .tab {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-16);
+
+    width: 100%;
+    height: 100%;
+    padding: var(--s-16);
+
+    color: var(--gray-500);
+
+    &.selected {
+      color: var(--black);
+      background: var(--primary-500);
+    }
+
+    &:not(.selected):hover {
+      background: var(--gray-900);
+    }
+  }
+
+  .text {
+    padding: var(--s-24);
+  }
+
+  .item {
+    display: none;
+    grid-template-columns: 1fr;
+    width: 100%;
+    height: 100%;
+
+    &.selected {
+      display: grid;
+
+      & .simulation {
+        transform: scale(0.9);
+
+        mask-image: radial-gradient(
+          ellipse 65% 65% at center,
+          black 65%,
+          transparent 100%
+        );
+      }
+    }
+
+    @include media-min('md') {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .lottie {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 300px;
+    max-height: 300px;
+
+    mask-image: radial-gradient(
+      ellipse 50% 50% at center,
+      black 50%,
+      transparent 100%
+    );
+  }
+
+  .lottieplayer {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 400px;
+  }
+</style>
+
+<script>
+  const hideLottieSvg = () => {
+    const player = document.querySelectorAll('.lottieplayer');
+    player.forEach((p) => {
+      if (p?.shadowRoot) {
+        const svg = p.shadowRoot.querySelector('svg > g > g:last-child');
+        if (svg) {
+          (svg as HTMLElement).style.display = 'none';
+        }
+      }
+    });
+  };
+
+  const player = document.querySelector('.lottieplayer');
+  if (player) {
+    player.addEventListener('load', hideLottieSvg);
+    setTimeout(hideLottieSvg, 500);
+  }
+
+  const initTabs = () => {
+    const tabs = document.querySelectorAll('.tabs .tab');
+    const items = document.querySelectorAll('.tabContent .item');
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener('click', () => {
+        tabs.forEach((t) => t.classList.remove('selected'));
+        items.forEach((item) => item.classList.remove('selected'));
+
+        tab.classList.add('selected');
+        items[index]?.classList.add('selected');
+
+        hideLottieSvg();
+      });
+    });
+  };
+
+  initTabs();
+  document.addEventListener('astro:after-swap', initTabs);
+</script>

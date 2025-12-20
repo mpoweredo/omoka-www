@@ -1,0 +1,51 @@
+---
+import SpacerImage from '~assets/shapes/spacer.svg?raw';
+---
+
+<div class="spacer">
+  <div class="lines">
+    <Fragment set:html={SpacerImage} />
+  </div>
+
+  <div class="emptySpace"></div>
+</div>
+
+<style lang="scss">
+  @use '~styles/mixins/media' as *;
+
+  .spacer {
+    overflow: hidden;
+    width: 100%;
+    max-width: var(--max-width);
+    height: 80px;
+  }
+
+  .lines {
+    display: none;
+    width: 100%;
+    height: 100%;
+
+    :global(svg) {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    @include media-min('md') {
+      display: block;
+    }
+  }
+
+  .emptySpace {
+    display: none;
+
+    width: 100%;
+    height: 80px;
+    border-right: 1px solid var(--gray-800);
+    border-left: 1px solid var(--gray-800);
+
+    @include media-max('md') {
+      display: block;
+    }
+  }
+</style>
