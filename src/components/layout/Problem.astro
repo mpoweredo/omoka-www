@@ -1,0 +1,187 @@
+---
+import Typography from '~components/ui/Typography.astro';
+import ConfidenceChart from '~assets/illustrations/confidence-chart.svg';
+import Radar from '~assets/illustrations/radar.png';
+import Integrations from '~assets/illustrations/integrations.png';
+---
+
+<div class="container">
+  <div class="title">
+    <Typography tag="h2" styling="headingM" align="center">
+      Automated QA on autopilot <br />omoka finds the bugs, you just get the
+      tickets
+    </Typography>
+  </div>
+
+  <div class="content">
+    <div class="item">
+      <div class="leftSide">
+        <Typography tag="h3" styling="headingM" align="left">
+          Zero effort testing
+        </Typography>
+
+        <Typography tag="p" styling="paragraphL" align="left" color="gray300">
+          Let’s be honest - no one likes testing their own app. It is boring,
+          time-consuming, and costly. The AI agent for testing is always on
+          standby to handle the process, so you can focus on scaling your
+          business knowing your app works perfectly.
+        </Typography>
+      </div>
+
+      <div class="rightSide confidenceChart">
+        <ConfidenceChart />
+      </div>
+    </div>
+    <div class="item">
+      <div class="leftSide">
+        <Typography tag="h3" styling="headingM" align="left">
+          Is your app bug free right now?
+        </Typography>
+
+        <Typography tag="p" styling="paragraphL" align="left" color="gray300">
+          You only get one chance to make a first impression. When users see a
+          bug, whether big or small, they stop trusting you. Your brand looks
+          unprofessional and your credibility disappears. omoka protects your
+          reputation before it is too late.
+        </Typography>
+      </div>
+
+      <div class="rightSide radar">
+        <img src={Radar.src} alt="Radar" />
+      </div>
+    </div>
+    <div class="item">
+      <div class="leftSide">
+        <Typography tag="h3" styling="headingM" align="left">
+          Bugs land in your backlog
+        </Typography>
+
+        <Typography tag="p" styling="paragraphL" align="left" color="gray300">
+          Don't waste a second manually creating tickets and remove the worst
+          testing part. omoka sends precise evidence straight to Jira or any
+          tool you use. No manual typing, no "how to reproduce" calls. Just a
+          clear list of what to fix - it's that simple.
+        </Typography>
+      </div>
+
+      <div class="rightSide integrations">
+        <img src={Integrations.src} alt="Radar" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<style lang="scss">
+  @use '~styles/mixins/media' as *;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--gray-800);
+    border-left: 1px solid var(--gray-800);
+  }
+
+  .title {
+    width: 100%;
+    padding: var(--s-40);
+    border-top: 1px solid var(--gray-800);
+    border-bottom: 1px solid var(--gray-800);
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid var(--gray-800);
+
+    @include media-min('md') {
+      flex-direction: row;
+      height: 300px;
+    }
+  }
+
+  .leftSide {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-36);
+
+    width: 100%;
+    padding: var(--s-40);
+  }
+
+  .rightSide {
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    padding: var(--s-24);
+
+    @include media-min('md') {
+      position: relative;
+
+      align-items: end;
+      justify-content: end;
+
+      height: 100%;
+      padding: 0;
+    }
+  }
+
+  .confidenceChart {
+    display: none;
+
+    /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+    :global(svg) {
+      transform: translateY(40px) translateX(8%);
+      scale: 0.9;
+      width: 100%;
+      height: 100%;
+    }
+
+    @include media-min('md') {
+      display: block;
+    }
+  }
+
+  .radar {
+    position: relative;
+    display: none;
+    height: 100%;
+
+    img {
+      position: absolute;
+      transform: translateY(50%) translateX(5%) scale(1.6);
+
+      width: 100%;
+      height: 100%;
+
+      object-fit: contain;
+    }
+
+    @include media-min('md') {
+      display: block;
+    }
+  }
+
+  .integrations {
+    display: none;
+
+    img {
+      transform: translateY(-5.5%) translateX(5%);
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    @include media-min('md') {
+      display: block;
+    }
+  }
+</style>
