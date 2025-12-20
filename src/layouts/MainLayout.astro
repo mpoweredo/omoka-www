@@ -1,6 +1,7 @@
 ---
-import Footer from '~components/sections/Footer.astro';
-import Header from '~components/sections/Header.astro';
+// import Footer from '~components/sections/Footer.astro';
+// import Header from '~components/sections/Header.astro';
+import Header from '~components/layout/Header.astro';
 import '~styles/styles.scss';
 
 interface Props {
@@ -43,7 +44,7 @@ const ogUrlFinal = ogUrl || Astro.url.href;
     <link rel="sitemap" href="/sitemap-index.xml" />
 
     <!-- Favicon dla nowoczesnych przeglądarek -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="favicon/favicon.svg" />
 
     <!-- Open Graph meta tags (Facebook, LinkedIn) -->
     <meta property="og:type" content={ogType} />
@@ -58,20 +59,14 @@ const ogUrlFinal = ogUrl || Astro.url.href;
     {description && <meta name="twitter:description" content={description} />}
     <meta name="twitter:image" content={defaultOgImageUrl} />
 
-    <link rel="icon" type="image/png" sizes="192x192" href="/favicon/favicon-192x192.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="/favicon/favicon-96x96.png"
+    />
 
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="/favicon/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="/favicon/favicon-16x16.png"
-    />
+
     <link rel="shortcut icon" href="/favicon/favicon.ico" />
 
     <!-- Apple Touch Icon -->
@@ -97,21 +92,11 @@ const ogUrlFinal = ogUrl || Astro.url.href;
   </head>
 
   <body>
-    <invent-assistant
-      theme-appearance="light"
-      theme-button-background-color="#7950EF"
-      assistant-id="ast_50Asa4OE6UB7qRwqa10tpZ"></invent-assistant>
-    <script
-      type="text/javascript"
-      src="https://www.useinvent.com/button.js"
-      async
-      defer></script>
-
     <Header />
 
     <slot />
 
-    <Footer />
+    <!-- <Footer /> -->
   </body>
 </html>
 
@@ -121,5 +106,6 @@ const ogUrlFinal = ogUrl || Astro.url.href;
     width: 100%;
     height: 100%;
     margin: 0;
+    background-color: var(--black);
   }
 </style>

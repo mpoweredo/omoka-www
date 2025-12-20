@@ -1,0 +1,318 @@
+---
+import Button from '~components/ui/Button.astro';
+import Logo from '~assets/logo-omoka.svg';
+import { SECTIONS } from '~consts/sections';
+import Typography from '~components/ui/Typography.astro';
+
+// Navigation links configuration
+const navLinks = [
+  { href: SECTIONS.HOW_IT_WORKS, label: 'HOW IT WORKS' },
+  { href: SECTIONS.HOW_IT_WORKS, label: 'ACCESS' },
+  { href: SECTIONS.HOW_IT_WORKS, label: 'PRICING' },
+  { href: SECTIONS.HOW_IT_WORKS, label: 'BLOG' },
+];
+---
+
+<header>
+  <div class="container">
+    <div class="leftSide">
+      <a class="logo" href="/">
+        <Logo />
+      </a>
+
+      <!-- Desktop navigation links -->
+      {
+        navLinks.map((link) => (
+          <a class="leftItem" href={link.href}>
+            <Typography tag="p" styling="bodyM">
+              {link.label}
+            </Typography>
+          </a>
+        ))
+      }
+    </div>
+
+    <!-- Desktop CTA button -->
+    <div class="rightSide">
+      <Button
+        href="https://app.devtimate.com/sign-up"
+        variant="primary"
+        withArrow
+      >
+        Request Access
+      </Button>
+    </div>
+
+    <!-- Mobile hamburger button -->
+    <button class="hamburger" type="button" aria-label="Toggle menu">
+      <span class="hamburgerLine"></span>
+      <span class="hamburgerLine"></span>
+      <span class="hamburgerLine"></span>
+    </button>
+  </div>
+
+  <!-- Mobile dropdown menu -->
+  <nav class="mobileMenu">
+    {
+      navLinks.map((link) => (
+        <a class="mobileMenuItem" href={link.href}>
+          <Typography tag="p" styling="bodyM">
+            {link.label}
+          </Typography>
+        </a>
+      ))
+    }
+    <div class="mobileMenuCta">
+      <Button
+        href="https://app.devtimate.com/sign-up"
+        variant="primary"
+        withArrow
+      >
+        Request Access
+      </Button>
+    </div>
+  </nav>
+</header>
+
+<script>
+  // Toggle mobile menu on hamburger click
+  const hamburger = document.querySelector('.hamburger');
+  const mobileMenu = document.querySelector('.mobileMenu');
+  const header = document.querySelector('header');
+
+  hamburger?.addEventListener('click', () => {
+    hamburger.classList.toggle('isActive');
+    mobileMenu?.classList.toggle('isOpen');
+    header?.classList.toggle('menuOpen');
+  });
+
+  // Close menu when clicking on a link
+  const mobileLinks = document.querySelectorAll('.mobileMenuItem');
+  mobileLinks.forEach((link) => {
+    link.addEventListener('click', () => {
+      hamburger?.classList.remove('isActive');
+      mobileMenu?.classList.remove('isOpen');
+      header?.classList.remove('menuOpen');
+    });
+  });
+</script>
+
+<style lang="scss">
+  @use '~styles/mixins/media' as *;
+
+  header {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    right: 0;
+    left: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    width: 100%;
+    max-width: unset;
+    height: var(--header-height);
+    padding: 0 var(--s-16);
+    border-bottom: 1px solid var(--gray-800);
+
+    background-color: var(--black);
+
+    // Expand header height when menu is open (mobile)
+    &.menuOpen {
+      @include media-max('md') {
+        height: auto;
+      }
+    }
+  }
+
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+    max-width: var(--max-width);
+    height: var(--header-height);
+    min-height: var(--header-height);
+    border-right: 1px solid var(--gray-800);
+    border-left: 1px solid var(--gray-800);
+  }
+
+  .leftSide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: fit-content;
+    height: 100%;
+
+    & > * {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: fit-content;
+      height: 100%;
+      border-right: 1px solid var(--gray-800);
+
+      &:hover {
+        border-bottom: 1px solid var(--gray-800);
+        background-color: var(--gray-900);
+      }
+
+      // Hide all items except logo on mobile
+      &:not(.logo) {
+        @include media-max('md') {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .logo {
+    padding: 0 var(--s-46);
+
+    @include media-max('md') {
+      padding: 0 var(--s-24);
+    }
+  }
+
+  .leftItem {
+    padding: 0 var(--s-24);
+    color: var(--gray-200);
+    text-decoration: none;
+    text-transform: uppercase;
+
+    // Hide on mobile
+    @include media-max('md') {
+      display: none;
+    }
+  }
+
+  .rightSide {
+    position: relative;
+    z-index: 22222;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: fit-content;
+    height: 100%;
+    padding: 0 var(--s-46);
+    border-left: 1px solid var(--gray-800);
+
+    // Hide on mobile
+    @include media-max('md') {
+      display: none;
+    }
+  }
+
+  // Hamburger menu button - visible only on mobile
+  .hamburger {
+    cursor: pointer;
+
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+
+    width: fit-content;
+    height: 100%;
+    padding-right: var(--s-24);
+    padding-left: var(--s-24);
+    border: none;
+    border-left: 1px solid var(--gray-800);
+
+    background: transparent;
+
+    @include media-max('md') {
+      display: flex;
+    }
+  }
+
+  .hamburgerLine {
+    width: 24px;
+    height: 2px;
+    background-color: var(--gray-200);
+    transition:
+      transform 0.3s ease,
+      opacity 0.3s ease;
+
+    .hamburger:hover & {
+      background-color: var(--white);
+    }
+
+    // Active state - transform to X
+    .hamburger.isActive & {
+      &:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+      }
+
+      &:nth-child(2) {
+        opacity: 0;
+      }
+
+      &:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+      }
+    }
+  }
+
+  // Mobile dropdown menu
+  .mobileMenu {
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+
+    width: 100%;
+    max-width: var(--max-width);
+    max-height: 0;
+
+    opacity: 0;
+
+    transition:
+      max-height 0.3s ease,
+      opacity 0.3s ease;
+
+    @include media-max('md') {
+      display: flex;
+    }
+
+    // Open state
+    &.isOpen {
+      max-height: 400px;
+      padding-bottom: var(--s-16);
+      opacity: 1;
+    }
+  }
+
+  .mobileMenuItem {
+    display: flex;
+    align-items: center;
+
+    width: 100%;
+    padding: var(--s-16);
+    border-bottom: 1px solid var(--gray-800);
+
+    color: var(--gray-200);
+    text-decoration: none;
+    text-transform: uppercase;
+
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--gray-900);
+    }
+  }
+
+  .mobileMenuCta {
+    display: flex;
+    padding: var(--s-16);
+    padding-top: var(--s-24);
+  }
+</style>

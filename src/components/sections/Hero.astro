@@ -1,166 +1,191 @@
 ---
 import Button from '~components/ui/Button.astro';
 import Typography from '~components/ui/Typography.astro';
-import HighlightedText, {
-  type HighlightedTextProps,
-} from '~components/ui/HighlightedText.astro';
-import Sjson from '~assets/features/xpp.json';
+import LinesHeroShapes from '~assets/shapes/lines-hero.svg';
+import ArrowDownRight from 'phosphor-astro/ArrowDownRight.astro';
 
 interface Props {
-  title: HighlightedTextProps;
+  title: string;
   description: string;
-  heroVideo: string;
 }
 
-const { title, description, heroVideo } = Astro.props as Props;
+const { title, description } = Astro.props as Props;
 ---
 
-<script src="https://cdn.lottielab.com/s/lottie-player@1.x/player-web.min.js"
-></script>
-
-<script>
-  // Hide SVG inside lottie-player shadow DOM
-  const hideLottieSvg = () => {
-    const player = document.querySelector('.lottieplayer');
-    if (player?.shadowRoot) {
-      const svg = player.shadowRoot.querySelector('svg > g > g:last-child');
-      if (svg) {
-        svg.style.display = 'none';
-      }
-    }
-  };
-
-  // Wait for lottie-player to be ready
-  const player = document.querySelector('.lottieplayer');
-  if (player) {
-    player.addEventListener('load', hideLottieSvg);
-    // Fallback - try after short delay if load event doesn't fire
-    setTimeout(hideLottieSvg, 500);
-  }
-</script>
-
-<div class="container">
-  <section class="hero">
+<section class="hero">
+  <div class="leftSide">
     <div class="texts">
-      <Typography tag="h1" align="center">
-        <HighlightedText {...title} />
+      <Typography tag="h1" align="left">
+        <Fragment
+          set:html={title
+            .split('\n')
+            .map((line) => `<span class="line">${line}</span>`)}
+        />
       </Typography>
       <div class="description">
-        <Typography color="gray900" tag="p" styling="paragraphL" align="center">
+        <Typography color="gray500" tag="p" styling="paragraphL" align="left">
           <Fragment set:html={description.replace(/\n/g, '<br />')} />
         </Typography>
       </div>
     </div>
 
-    <lottie-player
-      class="lottieplayer"
-      src={'/src/assets/features/xpp.json'}
-      autoplay
-      loop
+    <Button
+      href="https://app.devtimate.com/sign-up"
+      variant="primary"
+      withArrow
     >
-    </lottie-player>
+      Request Access
+    </Button>
+  </div>
 
-    <div class="buttons">
-      <Button href="https://app.devtimate.com/sign-up" variant="secondary">
-        Start free for 14 days
-      </Button>
-      <Button href="https://app.devtimate.com/live-demo" variant="primary">
-        Interactive demo
-      </Button>
-    </div>
-
-    <div class="heroImage">
-      <div class="heroImageInner">
-        <video src={heroVideo} autoplay loop muted playsinline></video>
+  <div class="rightSide">
+    <div class="linesReveal" data-hero-lines>
+      <div class="linesContainer">
+        <LinesHeroShapes style="height: 100%;" />
       </div>
     </div>
-  </section>
-</div>
+  </div>
+</section>
 
-<style lang="scss">
-  .container {
-    position: relative;
-    width: 100%;
-    max-width: 100%;
-    min-height: 100vh;
-  }
+<script>
+  import gsap from 'gsap';
 
-  .container::before {
-    pointer-events: none;
-    content: '';
+  // Reveal animation with soft edge (animate mask position)
+  const linesReveal = document.querySelector('[data-hero-lines]');
 
-    position: absolute;
-    z-index: 0;
-    inset: 0;
-
-    background-color: transparent;
-    background-image: radial-gradient(var(--gray-300) 1px, transparent 1px);
-    background-size: 14px 14px;
-
-    mask-image: linear-gradient(
-      to bottom,
-      transparent 0%,
-      black 60%,
-      transparent 120%
+  if (linesReveal) {
+    gsap.fromTo(
+      linesReveal,
+      {
+        // Start: mask positioned far right (content hidden)
+        maskPosition: '-220% 0',
+      },
+      {
+        // End: mask covers content (fully visible)
+        maskPosition: '50% 0',
+        duration: 7,
+        ease: 'back',
+      },
     );
   }
+</script>
+
+<style lang="scss">
+  @use '~styles/mixins/section' as *;
+  @use '~styles/mixins/media' as *;
 
   .hero {
-    position: relative;
-    z-index: 1;
+    @include section-borders;
 
+    overflow: hidden;
     display: flex;
-    flex-direction: column;
-    gap: var(--s-32);
-    align-items: center;
+    justify-content: space-between;
 
     width: 100%;
-    max-width: var(--max-width);
-    min-height: 100vh;
-    margin: 0 auto;
-    padding-top: 220px;
+    padding-right: var(--s-24);
+    padding-left: var(--s-24);
+
+    @include media-min('md') {
+      padding-right: 0;
+      padding-left: var(--s-46);
+    }
+  }
+
+  .leftSide {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-40);
+
+    width: 100%;
+    padding-top: calc(var(--header-height) + 160px);
+    padding-bottom: 160px;
+
+    @include media-min('sm') {
+      padding-top: calc(var(--header-height) + 220px);
+      padding-bottom: 220px;
+    }
+  }
+
+  .rightSide {
+    position: relative;
+
+    display: flex;
+    display: none;
+    align-items: center;
+    justify-content: end;
+
+    width: 100%;
+
+    @include media-min('sm') {
+      display: flex;
+    }
   }
 
   .texts {
     display: flex;
     flex-direction: column;
-    gap: var(--s-16);
-    align-items: center;
-  }
+    gap: var(--s-20);
 
-  .description {
-    max-width: 640px;
-  }
-
-  .buttons {
-    display: flex;
-    gap: var(--s-12);
-  }
-
-  .heroImage {
     width: 100%;
-    margin: 0;
-    margin-top: var(--s-64);
-    padding: var(--s-10);
-    border: 2px solid var(--gray-200);
-    border-radius: 2rem;
+    height: fit-content;
 
-    background-color: var(--gray-100);
+    :global(h1) {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
 
-    & video {
-      width: 100%;
-      height: auto;
-      border: 1px solid var(--gray-300);
-      border-radius: var(--radius-16);
+    :global(.line) {
+      display: flex;
+      flex-direction: column;
+      width: fit-content;
+
+      @include media-min('sm') {
+        white-space: nowrap;
+      }
     }
   }
 
-  .lottieplayer {
+  /* Wrapper for reveal animation with soft edge */
+  .linesReveal {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: end;
+
     width: 100%;
     height: 100%;
 
-    & svg {
-      display: none;
-    }
+    /* Gradient mask for soft-edge reveal animation */
+
+    /* Gradient goes to left = soft edge is on the left side */
+
+    /* Black = visible, transparent = hidden */
+    mask-image: linear-gradient(to left, black 0%, black 60%, transparent 100%);
+
+    /* Initial state: hidden (GSAP animates mask-position) */
+    mask-position: -150% 100%;
+    mask-repeat: no-repeat;
+    mask-size: 150% 100%;
+  }
+
+  /* Container for lines with ellipse mask applied */
+  .linesContainer {
+    position: relative;
+    transform: translateY(30px);
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+
+    width: 100%;
+    height: 100%;
+
+    /* SVG mask with blur filter for smooth Figma-like edges */
+    mask-image: url('/src/assets/shapes/ellipse-blur-mask.svg');
+    mask-position: -100px 75px;
+    mask-repeat: no-repeat;
+    mask-size: 130% 85%;
   }
 </style>

@@ -3,7 +3,7 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  src: url('/fonts/OverusedGrotesk-Book.tff') format('truetype');
+  src: url('/fonts/OverusedGrotesk-Book.ttf') format('truetype');
 }
 
 @font-face {
@@ -11,9 +11,16 @@
   font-weight: 500;
   font-style: normal;
   font-display: swap;
-  src: url('/fonts/OverusedGrotesk-Medium.tff') format('truetype');
+  src: url('/fonts/OverusedGrotesk-Regular.ttf') format('truetype');
 }
 
+@font-face {
+  font-family: Grotesk;
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/OverusedGrotesk-Medium.ttf') format('truetype');
+}
 
 h1,
 .headingXl {
@@ -88,7 +95,7 @@ p,
 }
 
 .button {
-  font-size: 1.4rem;
-  font-weight: 500;
+  font-size: 1.5rem;
+  font-weight: 600;
   line-height: 1;
 }
