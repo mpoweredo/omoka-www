@@ -1,0 +1,245 @@
+---
+// ForWho section - displays target audience use cases for AI Testing
+// Responsive grid layout: 1 col (mobile) -> 2 col (tablet) -> 4 col (desktop)
+
+import Typography from '~components/ui/Typography.astro';
+import RocketLaunch from 'phosphor-astro/RocketLaunchLight.astro';
+import BuildingOffice from 'phosphor-astro/BuildingOfficeLight.astro';
+import Laptop from 'phosphor-astro/LaptopLight.astro';
+import UsersFour from 'phosphor-astro/UsersFourLight.astro';
+
+// Use case data for the target audience tiles
+const useCases = [
+  {
+    icon: RocketLaunch,
+    title: 'Early-Stage SaaS & Startups',
+    description:
+      'Iterate faster and protect your growth. Catch every critical bug before your users do, ensuring high-quality releases without the massive overhead of manual QA staff.',
+  },
+  {
+    icon: BuildingOffice,
+    title: 'Enterprises',
+    description:
+      'Standardize QA across complex systems. Eliminate knowledge gaps and ensure critical flows work perfectly, even as legacy code evolves.',
+  },
+  {
+    icon: Laptop,
+    title: 'Freelancers & Indie Hackers',
+    description:
+      'Scale your output without hiring help. omoka automates the entire testing process, giving you the power of a full QA team while you stay lean and fast.',
+  },
+  {
+    icon: UsersFour,
+    title: 'Software Agencies',
+    description:
+      'Increase margins on every project. Deliver high-quality results to more clients and grow your agency without the need to hire additional staff.',
+  },
+];
+---
+
+<section class="forWho">
+  <div class="gridContainer">
+    <!-- Row 1 -->
+    <!-- Green header tile -->
+    <div class="tile tileHeader">
+      <Typography tag="h2" styling="headingM" color="black">
+        Automated AI testing is ideal for
+      </Typography>
+    </div>
+
+    <!-- Empty tile next to header (tablet 2-col only) -->
+    <div class="tile tileEmptyTablet" aria-hidden="true"></div>
+
+    <!-- Empty decorative tile (desktop only) -->
+    <div class="tile tileEmpty" aria-hidden="true"></div>
+
+    <!-- Early-Stage SaaS & Startups -->
+    <div class="tile tileContent">
+      <div class="iconWrapper">
+        <RocketLaunch width={'3.6rem'} height={'3.6rem'} />
+      </div>
+      <Typography tag="h3" styling="bodyL" class="tileTitle">
+        {useCases[0].title}
+      </Typography>
+      <Typography
+        tag="p"
+        styling="paragraphM"
+        color="gray400"
+        class="tileDescription"
+      >
+        {useCases[0].description}
+      </Typography>
+    </div>
+
+    <!-- Enterprises -->
+    <div class="tile tileContent">
+      <div class="iconWrapper">
+        <BuildingOffice width={'3.6rem'} height={'3.6rem'} />
+      </div>
+      <Typography tag="h3" styling="bodyL" class="tileTitle">
+        {useCases[1].title}
+      </Typography>
+      <Typography
+        tag="p"
+        styling="paragraphM"
+        color="gray400"
+        class="tileDescription"
+      >
+        {useCases[1].description}
+      </Typography>
+    </div>
+
+    <!-- Row 2 -->
+    <!-- Empty decorative tile (desktop only) -->
+    <div class="tile tileEmpty" aria-hidden="true"></div>
+
+    <!-- Freelancers & Indie Hackers -->
+    <div class="tile tileContent">
+      <div class="iconWrapper">
+        <Laptop width={'3.6rem'} height={'3.6rem'} />
+      </div>
+      <Typography tag="h3" styling="bodyL" class="tileTitle">
+        {useCases[2].title}
+      </Typography>
+      <Typography
+        tag="p"
+        styling="paragraphM"
+        color="gray400"
+        class="tileDescription"
+      >
+        {useCases[2].description}
+      </Typography>
+    </div>
+
+    <!-- Empty decorative tile (desktop only) -->
+    <div class="tile tileEmpty" aria-hidden="true"></div>
+
+    <!-- Software Agencies -->
+    <div class="tile tileContent">
+      <div class="iconWrapper">
+        <UsersFour width={'3.6rem'} height={'3.6rem'} />
+      </div>
+      <Typography tag="h3" styling="bodyL" class="tileTitle">
+        {useCases[3].title}
+      </Typography>
+      <Typography
+        tag="p"
+        styling="paragraphM"
+        color="gray400"
+        class="tileDescription"
+      >
+        {useCases[3].description}
+      </Typography>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  @use '~styles/mixins/media' as *;
+
+  .forWho {
+    width: 100%;
+  }
+
+  .gridContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+    border-top: 1px solid var(--gray-800);
+    border-left: 1px solid var(--gray-800);
+
+    // Tablet: 2 columns, equal row heights
+    @include media-min('sm') {
+      grid-auto-rows: 1fr;
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    // Desktop: 4 columns, equal row heights
+    @include media-min('md') {
+      grid-auto-rows: 1fr;
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  // Base tile styles - shared border styling
+  .tile {
+    border-right: 1px solid var(--gray-800);
+    border-bottom: 1px solid var(--gray-800);
+  }
+
+  // Green header tile
+  .tileHeader {
+    display: flex;
+
+    padding: var(--s-20);
+    padding-top: var(--s-46);
+    padding-bottom: var(--s-46);
+
+    background-color: var(--primary-500);
+
+    :global(h2) {
+      width: 75%;
+    }
+
+    // Tablet and desktop: normal padding
+    @include media-min('sm') {
+      padding-top: var(--s-20);
+      padding-bottom: var(--s-20);
+    }
+
+    @include media-min('md') {
+      :global(h2) {
+        width: 100%;
+      }
+    }
+  }
+
+  // Empty tile next to header (visible only on tablet 2-col view)
+  .tileEmptyTablet {
+    display: none;
+    background-color: transparent;
+
+    @include media-min('sm') {
+      display: block;
+    }
+
+    @include media-min('md') {
+      display: none;
+    }
+  }
+
+  // Empty decorative tiles (desktop 4-col only)
+  // Hidden on mobile and tablet, visible only on 4-column desktop layout
+  .tileEmpty {
+    display: none;
+    min-height: 180px;
+    background-color: transparent;
+
+    @include media-min('md') {
+      display: block;
+    }
+  }
+
+  // Content tiles with icon, title, description
+  .tileContent {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-16);
+
+    padding: var(--s-20);
+
+    background-color: transparent;
+  }
+
+  .iconWrapper {
+    margin-bottom: var(--s-4);
+    color: var(--white);
+  }
+
+  .tileTitle {
+    color: var(--white);
+  }
+
+  .tileDescription {
+    line-height: 1.6;
+  }
+</style>

@@ -53,6 +53,7 @@ const {
     border-radius: var(--radius-max);
 
     text-decoration: none;
+    letter-spacing: 0.25px;
     white-space: nowrap;
 
     transition: background-color 0.2s ease-in-out;
@@ -64,12 +65,16 @@ const {
 
   .primary {
     color: var(--black);
-    letter-spacing: 0.45px;
     background-color: var(--primary-500);
 
     &:hover {
       background-color: var(--primary-400);
     }
+  }
+
+  .secondary {
+    color: var(--text);
+    background-color: var(--black);
   }
 
   .arrow {

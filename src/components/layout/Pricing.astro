@@ -1,0 +1,457 @@
+---
+// Pricing section - Bento Grid layout with header, free audit, and pricing plans
+// Mobile: single column with Free Audit at bottom
+// Desktop: 2 columns - left (header + audit), right (4 pricing plans)
+
+import Typography from '~components/ui/Typography.astro';
+import Button from '~components/ui/Button.astro';
+import Check from 'phosphor-astro/Check.astro';
+import X from 'phosphor-astro/X.astro';
+
+// Pricing plans data
+const plans = [
+  {
+    name: 'Solo',
+    description: 'Peace of mind for your first product.',
+    price: '$TBA',
+    features: [
+      { text: '1 active project', included: true },
+      { text: 'Detailed bug reports', included: true },
+      { text: 'Custom requests', included: true },
+      { text: 'Email alerts', included: true },
+      { text: 'Weekly autonomous check', included: true },
+      { text: 'Integrations', included: false },
+    ],
+  },
+  {
+    name: 'Team',
+    description: 'Reliable protection for fast-growing products.',
+    price: '$TBA',
+    features: [
+      { text: '2 active projects', included: true },
+      { text: 'Detailed bug reports', included: true },
+      { text: 'Custom requests', included: true },
+      { text: 'Email alerts', included: true },
+      { text: 'Daily autonomous checks', included: true },
+      { text: 'Integrations', included: true },
+    ],
+  },
+  {
+    name: 'Agency',
+    description: 'Professional QA for your entire client portfolio.',
+    price: '$TBA',
+    features: [
+      { text: '10 active projects', included: true },
+      { text: 'Detailed bug reports', included: true },
+      { text: 'Custom requests', included: true },
+      { text: 'Email alerts', included: true },
+      { text: 'Daily autonomous checks', included: true },
+      { text: 'Integrations', included: true },
+    ],
+  },
+  {
+    name: 'Enterprise',
+    description: 'Custom QA engine for large-scale operations.',
+    price: '$TBA',
+    features: [
+      { text: 'Custom project limits', included: true },
+      { text: 'Detailed bug reports', included: true },
+      { text: 'Custom requests', included: true },
+      { text: 'Email alerts', included: true },
+      { text: 'Custom autonomous checks', included: true },
+      { text: 'Integrations', included: true },
+    ],
+  },
+];
+
+// Free audit deliverables
+const deliverables = [
+  { text: '1 Autonomous test run' },
+  { text: 'No credit card required' },
+  { text: 'Full report via Email' },
+  { text: 'No setup needed' },
+  { text: 'Delivered within 48h' },
+  { text: 'Verified by QA Team' },
+];
+---
+
+<section class="pricing">
+  <div class="gridContainer">
+    <!-- Left Column: Header + Free Audit -->
+    <div class="leftColumn">
+      <!-- Header Block -->
+      <div class="tile tileHeader">
+        <div class="headerContent">
+          <Typography tag="h2" styling="headingL" color="white">
+            Flexible plans for every stage
+          </Typography>
+          <Typography tag="p" styling="paragraphM" color="gray300">
+            We are still drafting our launch plans. Request access now to be the
+            first to know when we go live and secure an exclusive launch
+            discount.
+          </Typography>
+
+          <Button
+            href="https://app.devtimate.com/sign-up"
+            variant="primary"
+            withArrow
+          >
+            Request Access
+          </Button>
+        </div>
+      </div>
+
+      <!-- Free Audit Block (order-last on mobile) -->
+      <div class="tile tileAudit">
+        <div class="auditHeader">
+          <div class="auditHeaderContent">
+            <Typography tag="h3" styling="headingL" color="black">
+              Free Audit
+            </Typography>
+
+            <Typography tag="p" styling="paragraphM" color="black">
+              Get a sneak peek on your own app while waiting for your invite.
+              We'll email you the test findings with zero commitment.
+            </Typography>
+          </div>
+
+          <span class="auditPrice">$0</span>
+        </div>
+
+        <div class="deliverablesSection">
+          <Typography tag="span" styling="bodyS" color="gray900"
+            >DELIVERABLES</Typography
+          >
+          <div class="deliverablesGrid">
+            {
+              deliverables.map((item) => (
+                <div class="featureItem featureItemDark">
+                  <Check class="iconCheck iconCheckDark" />
+                  <Typography tag="span" styling="paragraphM" color="black">
+                    {item.text}
+                  </Typography>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="auditCta">
+          <Button
+            href="https://app.devtimate.com/sign-up"
+            variant="secondary"
+            withArrow
+            class="auditButton"
+          >
+            Get Free Audit
+          </Button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Pricing Plans -->
+    <div class="rightColumn">
+      {
+        plans.map((plan) => (
+          <div class="tile tilePlan">
+            <div class="planHeader">
+              <div class="planInfo">
+                <Typography tag="h3" styling="headingS" color="text">
+                  {plan.name}
+                </Typography>
+                <Typography tag="p" styling="paragraphS" color="gray300">
+                  {plan.description}
+                </Typography>
+              </div>
+              <span class="planPrice">{plan.price}</span>
+            </div>
+
+            <div class="featuresSection">
+              <Typography tag="span" styling="bodyS" color="gray200">
+                WHAT'S INCLUDED
+              </Typography>
+              <div class="featuresGrid">
+                {plan.features.map((feature) => (
+                  <div class="featureItem">
+                    {feature.included ? (
+                      <Check class="iconCheck" />
+                    ) : (
+                      <X class="iconX" />
+                    )}
+                    <Typography
+                      tag="span"
+                      styling="paragraphM"
+                      color={feature.included ? 'gray300' : 'gray500'}
+                    >
+                      {feature.text}
+                    </Typography>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  @use '~styles/mixins/media' as *;
+
+  .pricing {
+    width: 100%;
+  }
+
+  .gridContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+    border-top: 1px solid var(--gray-800);
+    border-left: 1px solid var(--gray-800);
+
+    // Desktop: 2 columns, 4 rows layout
+    @include media-min('md') {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: repeat(4, auto);
+    }
+  }
+
+  // Base tile styles - unified border system
+  .tile {
+    border-right: 1px solid var(--gray-800);
+    border-bottom: 1px solid var(--gray-800);
+  }
+
+  // Left column container - uses display: contents to allow grid positioning
+  .leftColumn {
+    display: contents;
+  }
+
+  // Right column container - uses display: contents to allow grid positioning
+  .rightColumn {
+    display: contents;
+  }
+
+  // Header tile - spans 2 rows on desktop
+  .tileHeader {
+    padding: var(--s-24);
+
+    @include media-min('md') {
+      grid-column: 1;
+      grid-row: 1 / 3; // Span rows 1-2
+      padding: var(--s-40);
+    }
+  }
+
+  .headerContent {
+    display: flex;
+    flex-direction: column;
+
+    // Limit heading width
+    & :global(h2) {
+      max-width: 80%;
+    }
+
+    & :global(p) {
+      padding-top: var(--s-16);
+      padding-bottom: var(--s-32);
+    }
+  }
+
+  .headerDescription {
+    line-height: 1.6;
+  }
+
+  // Free Audit tile (green block) - spans 2 rows on desktop
+  .tileAudit {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-24);
+    order: 10; // Push to bottom on mobile
+
+    padding: var(--s-24);
+
+    background-color: var(--primary-500);
+
+    @include media-min('md') {
+      grid-column: 1;
+      grid-row: 3 / 5; // Span rows 3-4
+      order: unset;
+      padding: var(--s-40);
+    }
+  }
+
+  .auditHeader {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .auditHeaderContent {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+    width: 100%;
+  }
+
+  .auditPrice {
+    font-size: 4.8rem;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--black);
+
+    @include media-min('md') {
+      font-size: 6rem;
+    }
+  }
+
+  .auditDescription {
+    max-width: 90%;
+  }
+
+  .deliverablesSection {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-16);
+    margin-top: var(--s-8);
+  }
+
+  .deliverablesGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-12) var(--s-24);
+  }
+
+  .auditCta {
+    margin-top: auto;
+    padding-top: var(--s-24);
+
+    @include media-min('md') {
+      padding-top: var(--s-40);
+    }
+  }
+
+  // Pricing plan tiles - positioned in right column on desktop
+  .tilePlan {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-24);
+
+    padding: var(--s-24);
+
+    background-color: var(--gray-900);
+
+    transition: background-color 0.2s ease-in-out;
+
+    @include media-min('md') {
+      grid-column: 2;
+      padding: var(--s-32);
+    }
+
+    // Position each plan in its row on desktop
+    @include media-min('md') {
+      &:nth-child(1) {
+        grid-row: 1;
+      }
+
+      &:nth-child(2) {
+        grid-row: 2;
+      }
+
+      &:nth-child(3) {
+        grid-row: 3;
+      }
+
+      &:nth-child(4) {
+        grid-row: 4;
+      }
+    }
+  }
+
+  .planHeader {
+    display: flex;
+    gap: var(--s-16);
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .planInfo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-4);
+  }
+
+  .planPrice {
+    font-size: 2.8rem;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--white);
+
+    @include media-min('md') {
+      font-size: 3.6rem;
+    }
+  }
+
+  // Features section (shared between plans)
+  .featuresSection {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-12);
+  }
+
+  .featuresGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-10) var(--s-24);
+  }
+
+  // Section label (WHAT'S INCLUDED / DELIVERABLES)
+  .sectionLabel {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .sectionLabelDark {
+    color: var(--black);
+    opacity: 0.6;
+  }
+
+  // Feature item row
+  .featureItem {
+    display: flex;
+    gap: var(--s-8);
+    align-items: center;
+
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--white);
+
+    // SVG icon sizing
+    & :global(svg) {
+      flex-shrink: 0;
+      width: 1.6rem;
+      height: 1.6rem;
+    }
+  }
+
+  .featureItemDark {
+    color: var(--black);
+  }
+
+  // Check icon
+  .iconCheck {
+    color: var(--text);
+  }
+
+  .iconCheckDark {
+    color: var(--black);
+  }
+
+  // X icon (feature not included)
+  .iconX {
+    color: var(--gray-500);
+  }
+</style>
