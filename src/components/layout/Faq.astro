@@ -1,0 +1,238 @@
+---
+// FAQ section - displays frequently asked questions in a table-like grid layout
+// Responsive: Desktop (3 columns) -> Mobile/Tablet (stacked layout)
+// Uses single-border technique to avoid double-thickness lines
+
+import Typography from '~components/ui/Typography.astro';
+
+// FAQ data structure
+const faqItems = [
+  {
+    id: '01',
+    question: 'When can I get access?',
+    answer:
+      'We plan to launch the beta in Q1 2026. By requesting priority access with your app URL, you secure a top spot on the waitlist, an early adopter discount, and a free autonomous bug audit while you wait.',
+  },
+  {
+    id: '02',
+    question: 'How omoka differs from other AI tools for QA testing?',
+    answer:
+      'Other tools are blind scripts that require complicated setup and workflows. omoka uses visual intelligence to see, understand, and think. It proposes scenarios automatically or executes specific requests instantly, cutting out entire manual work.',
+  },
+  {
+    id: '03',
+    question: 'Do I need coding skills to use omoka?',
+    answer:
+      'No. omoka is designed to be used by anyone, from developers to product managers. You interact with it using plain language, just like chatting with a colleague, and it handles all the technical execution.',
+  },
+  {
+    id: '04',
+    question: 'What kind of applications can omoka test?',
+    answer:
+      "omoka works with any web-based application accessible via a URL. Whether it's a SaaS platform, an e-commerce store, or a complex dashboard, if it runs in a browser, omoka can test it.",
+  },
+  {
+    id: '05',
+    question: "What happens to my tests if I change my website's design?",
+    answer:
+      'Nothing breaks. Because omoka uses visual understanding instead of rigid code selectors, it adapts to layout changes automatically. You can redesign your UI without having to rewrite your tests.',
+  },
+  {
+    id: '06',
+    question: 'How long does it take to get the first results?',
+    answer:
+      'You can get started almost immediately. Since there is no code to write and no complex environment to configure, you start receiving bug reports instantly, without having to manually write or maintain a single test.',
+  },
+];
+---
+
+<section class="faq">
+  <div class="gridContainer">
+    <!-- Header row (00) - spans full width on all screens -->
+    <div class="headerRow">
+      <div class="headerCounter">
+        <Typography tag="span" styling="headingL" color="black">00</Typography>
+      </div>
+      <div class="headerTitle">
+        <Typography tag="h2" styling="headingS" color="black">
+          FAQ: The AI QA Agent
+        </Typography>
+      </div>
+      <!-- Empty cell to complete the grid on desktop -->
+      <div class="headerEmpty"></div>
+    </div>
+
+    <!-- FAQ items (01-06) -->
+    {
+      faqItems.map((item) => (
+        <div class="faqRow">
+          {/* Desktop layout: 3 separate cells */}
+          <div class="cell cellCounter">
+            <Typography tag="span" styling="headingL" color="text">
+              {item.id}
+            </Typography>
+          </div>
+          <div class="cell cellQuestion">
+            <Typography tag="h3" styling="headingS" color="text">
+              {item.question}
+            </Typography>
+          </div>
+          <div class="cell cellAnswer">
+            <Typography tag="p" styling="paragraphL" color="gray400">
+              {item.answer}
+            </Typography>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style lang="scss">
+  @use '~styles/mixins/media' as *;
+
+  .faq {
+    width: 100%;
+  }
+
+  .gridContainer {
+    // Single-border technique: parent has top/left borders
+    border-top: 1px solid var(--gray-800);
+    border-left: 1px solid var(--gray-800);
+  }
+
+  // HEADER ROW (00)
+  .headerRow {
+    display: grid;
+    grid-template-columns: 1fr;
+    background-color: var(--primary-500);
+
+    @include media-min('md') {
+      grid-template-columns: 110px minmax(200px, 35%) 1fr;
+    }
+  }
+
+  .headerCounter {
+    display: none;
+    align-items: flex-start;
+
+    padding: var(--s-24);
+    border-right: 1px solid var(--gray-800);
+    border-bottom: 1px solid var(--gray-800);
+
+    @include media-min('md') {
+      display: flex;
+    }
+  }
+
+  .headerTitle {
+    display: flex;
+    align-items: flex-start;
+
+    padding: var(--s-20) var(--s-20);
+    border-right: 1px solid var(--gray-800);
+    border-bottom: 1px solid var(--gray-800);
+
+    // On mobile, show counter inline with title
+    &::before {
+      content: '00';
+
+      display: inline-block;
+
+      margin-right: var(--s-16);
+
+      font-size: 2.8rem;
+      font-weight: 500;
+      color: var(--black);
+
+      @include media-min('md') {
+        display: none;
+      }
+    }
+
+    @include media-min('md') {
+      padding: var(--s-20) var(--s-20);
+    }
+  }
+
+  .headerEmpty {
+    display: none;
+    border-right: 1px solid var(--gray-800);
+    border-bottom: 1px solid var(--gray-800);
+
+    @include media-min('md') {
+      display: block;
+    }
+  }
+
+  // FAQ ROWS (01-06)
+  .faqRow {
+    display: grid;
+    grid-template:
+      'counter question' auto
+      'answer answer' auto / auto 1fr;
+
+    @include media-min('md') {
+      grid-template:
+        'counter question answer' auto / 110px minmax(200px, 35%)
+        1fr;
+    }
+  }
+
+  // Base cell styles with single-border technique (right/bottom)
+  .cell {
+    border-right: 1px solid var(--gray-800);
+    border-bottom: 1px solid var(--gray-800);
+  }
+
+  .cellCounter {
+    display: flex;
+    grid-area: counter;
+    align-items: flex-start;
+
+    padding: var(--s-20);
+
+    color: var(--white);
+
+    @include media-min('md') {
+      padding: var(--s-28) var(--s-24);
+    }
+  }
+
+  .cellQuestion {
+    display: flex;
+    grid-area: question;
+    align-items: flex-start;
+
+    padding: var(--s-20);
+    border-right: 1px solid var(--gray-800);
+
+    color: var(--white);
+
+    background-color: var(--gray-900);
+
+    @include media-min('md') {
+      padding: var(--s-20) var(--s-20);
+      border-right: 1px solid var(--gray-800);
+    }
+
+    h3 {
+      line-height: 1.4;
+    }
+  }
+
+  .cellAnswer {
+    display: flex;
+    grid-area: answer;
+    align-items: flex-start;
+    padding: var(--s-20);
+
+    @include media-min('md') {
+      padding: var(--s-20) var(--s-20);
+    }
+
+    p {
+      line-height: 1.6;
+    }
+  }
+</style>

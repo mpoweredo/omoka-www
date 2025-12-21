@@ -3,13 +3,14 @@ import Button from '~components/ui/Button.astro';
 import Logo from '~assets/logo-omoka.svg';
 import { SECTIONS } from '~consts/sections';
 import Typography from '~components/ui/Typography.astro';
+import { PAGES } from '~consts/pages';
 
 // Navigation links configuration
 const navLinks = [
-  { href: SECTIONS.HOW_IT_WORKS, label: 'HOW IT WORKS' },
-  { href: SECTIONS.HOW_IT_WORKS, label: 'ACCESS' },
-  { href: SECTIONS.HOW_IT_WORKS, label: 'PRICING' },
-  { href: SECTIONS.HOW_IT_WORKS, label: 'BLOG' },
+  { href: `/#${SECTIONS.HOW_IT_WORKS}`, label: 'HOW IT WORKS' },
+  { href: PAGES.REQUEST_ACCESS, label: 'ACCESS' },
+  { href: `/#${SECTIONS.PRICING}`, label: 'PRICING' },
+  { href: `${PAGES.BLOG}`, label: 'BLOG' },
 ];
 ---
 
@@ -120,11 +121,17 @@ const navLinks = [
 
     background-color: var(--black);
 
+    transition: transform 0.3s ease;
+
     // Expand header height when menu is open (mobile)
     &.menuOpen {
       @include media-max('md') {
         height: auto;
       }
+    }
+
+    &.headerHidden {
+      transform: translateY(-100%);
     }
   }
 

@@ -1,0 +1,151 @@
+---
+// CTA Section - Split-screen call-to-action with Bento Grid layout
+// Desktop: 50/50 split (text left, checkerboard right)
+// Mobile: Stacked (text top, checkerboard bottom)
+// Uses single-border technique for seamless grid lines
+
+import Button from '~components/ui/Button.astro';
+import Typography from '~components/ui/Typography.astro';
+
+// Checkerboard grid configuration
+const columns = 7;
+const rows = 2;
+const totalCells = columns * rows;
+---
+
+<section class="cta">
+  <div class="gridContainer">
+    <!-- Left column: Text content -->
+    <div class="textCell">
+      <div class="textContent">
+        <Typography tag="h2" styling="headingL" align="left">
+          Secure your spot for<br />AI-driven testing
+        </Typography>
+
+        <Button
+          href="https://app.devtimate.com/sign-up"
+          variant="primary"
+          withArrow
+        >
+          Request Access
+        </Button>
+      </div>
+    </div>
+
+    <!-- Right column: Checkerboard pattern -->
+    <div class="checkerboardCell">
+      <div class="checkerboard">
+        {
+          Array.from({ length: totalCells }).map((_, index) => {
+            const row = Math.floor(index / columns);
+            const col = index % columns;
+            // Checkerboard logic: alternate based on row + col
+            const isDark = (row + col) % 2 === 0;
+            return <div class:list={['cell', isDark ? 'dark' : 'light']} />;
+          })
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style lang="scss">
+  @use '~styles/mixins/media' as *;
+
+  .cta {
+    width: 100%;
+  }
+
+  // Main container with single-border technique (top/left borders)
+  .gridContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+
+    // Single-border technique: parent has top/left borders
+    border-top: 1px solid var(--gray-800);
+    border-left: 1px solid var(--gray-800);
+
+    // Desktop: 50/50 split
+    @include media-min('md') {
+      grid-template-columns: 1fr 1fr;
+      min-height: 500px;
+    }
+  }
+
+  // Left cell: Text content with dark background
+  .textCell {
+    display: flex;
+    justify-content: flex-start;
+
+    // Mobile padding
+    padding: var(--s-32) var(--s-32);
+
+    // Single-border technique: cells have right/bottom borders
+    border-right: 1px solid var(--gray-800);
+    border-bottom: 1px solid var(--gray-800);
+
+    // Desktop padding
+    @include media-min('md') {
+      padding: var(--s-32) var(--s-32);
+    }
+  }
+
+  // Text content wrapper with proper spacing
+  .textContent {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-32);
+
+    @include media-min('md') {
+      gap: var(--s-40);
+    }
+  }
+
+  // Right cell: Checkerboard container
+  .checkerboardCell {
+    position: relative;
+
+    overflow: hidden;
+    display: flex;
+    display: none;
+    align-items: stretch;
+    justify-content: stretch;
+
+    min-height: 300px;
+
+    // Single-border technique: cells have right/bottom borders
+    border-right: 1px solid var(--gray-800);
+    border-bottom: 1px solid var(--gray-800);
+
+    @include media-min('md') {
+      display: flex;
+      min-height: 500px;
+    }
+  }
+
+  // Checkerboard grid layout
+  .checkerboard {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+
+    width: 100%;
+    height: 100%;
+  }
+
+  // Individual checkerboard cells
+  .cell {
+    width: 100%;
+    height: 100%;
+  }
+
+  // Dark cell color
+  .dark {
+    background-color: var(--gray-900);
+  }
+
+  // Light cell color
+  .light {
+    background-color: var(--gray-800);
+  }
+</style>

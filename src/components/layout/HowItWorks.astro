@@ -4,6 +4,7 @@ import Cube from 'phosphor-astro/CubeLight.astro';
 import ChatTeardropText from 'phosphor-astro/ChatTeardropTextLight.astro';
 import Scan from 'phosphor-astro/ScanLight.astro';
 import BugBeetle from 'phosphor-astro/BugBeetleLight.astro';
+import { SECTIONS } from '~consts/sections';
 ---
 
 <script src="https://cdn.lottielab.com/s/lottie-player@1.x/player-web.min.js"
@@ -12,7 +13,7 @@ import BugBeetle from 'phosphor-astro/BugBeetleLight.astro';
   src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.7.1/dist/dotlottie-wc.js"
   type="module"></script>
 
-<div class="container">
+<section class="container" id={SECTIONS.HOW_IT_WORKS}>
   <div class="title">
     <Typography tag="h2" styling="headingL">
       See how it works in practice
@@ -141,7 +142,7 @@ import BugBeetle from 'phosphor-astro/BugBeetleLight.astro';
       </div>
     </div>
   </div>
-</div>
+</section>
 
 <style lang="scss">
   @use '~styles/mixins/media' as *;
