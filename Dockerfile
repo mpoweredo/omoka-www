@@ -28,4 +28,4 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /app/dist /usr/share/nginx/html
 
 # Eksponujemy port
-EXPOSE 3000
+EXPOSE 3021
