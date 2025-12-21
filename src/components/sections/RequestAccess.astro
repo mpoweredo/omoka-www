@@ -8,6 +8,9 @@ import Button from '~components/ui/Button.astro';
 import Check from 'phosphor-astro/Check.astro';
 import CaretDown from 'phosphor-astro/CaretDown.astro';
 
+// reCAPTCHA v3 site key (public - safe to expose in frontend)
+const RECAPTCHA_SITE_KEY = '6LcFozIsAAAAAB-AOFRU8CoHmqc-LOLaoJREEuIX';
+
 // Benefits list for full data submission
 const benefits = [
   {
@@ -228,6 +231,16 @@ const teamSizeOptions = [
   <!-- Bottom spacer with borders (extends to footer) -->
   <div class="borderSpacerBottom"></div>
 </section>
+
+<!-- reCAPTCHA v3 script -->
+<script is:inline define:vars={{ RECAPTCHA_SITE_KEY }}>
+  // Store site key for use in form submission
+  window.RECAPTCHA_SITE_KEY = RECAPTCHA_SITE_KEY;
+</script>
+<script
+  is:inline
+  src={`https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`}
+></script>
 
 <style lang="scss">
   @use '~styles/mixins/media' as *;
@@ -587,6 +600,12 @@ const teamSizeOptions = [
     pointer-events: none;
     opacity: 0.7;
   }
+
+  // Hide reCAPTCHA v3 badge (Google allows this if you include proper attribution)
+  // We show text attribution in the footer instead
+  :global(.grecaptcha-badge) {
+    visibility: hidden !important;
+  }
 </style>
 
 <script>
@@ -727,6 +746,33 @@ const teamSizeOptions = [
     });
   });
 
+  // Get reCAPTCHA token
+  // reCAPTCHA v3 runs in background and returns a score (0.0-1.0)
+  async function getRecaptchaToken(): Promise<string | null> {
+    try {
+      // Wait for grecaptcha to be ready
+      // @ts-ignore - grecaptcha is loaded from external script
+      if (typeof grecaptcha === 'undefined') {
+        console.warn('reCAPTCHA not loaded');
+        return null;
+      }
+
+      // @ts-ignore - window.RECAPTCHA_SITE_KEY is set by inline script
+      const siteKey = window.RECAPTCHA_SITE_KEY;
+      if (!siteKey) {
+        console.warn('reCAPTCHA site key not found');
+        return null;
+      }
+
+      // @ts-ignore
+      const token = await grecaptcha.execute(siteKey, { action: 'submit' });
+      return token;
+    } catch (error) {
+      console.error('reCAPTCHA error:', error);
+      return null;
+    }
+  }
+
   // Form submission
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -739,12 +785,27 @@ const teamSizeOptions = [
       return;
     }
 
+    // Show loading state
+    submitButton.classList.add('loading');
+    submitButton.textContent = 'Verifying...';
+
+    // Get reCAPTCHA token
+    const recaptchaToken = await getRecaptchaToken();
+
+    // Update loading message
+    submitButton.textContent = 'Sending...';
+
     // Prepare data
     const formData = new FormData(form);
     const data: Record<string, string> = {};
 
     // Always include email
     data.email = formData.get('email') as string;
+
+    // Include reCAPTCHA token if available
+    if (recaptchaToken) {
+      data.recaptchaToken = recaptchaToken;
+    }
 
     // Auto-detect country from browser (silent, user doesn't see this)
     // Uses timezone to estimate country - more reliable than navigator.language
@@ -764,10 +825,6 @@ const teamSizeOptions = [
       data.website = formData.get('website') as string;
       data.appUrl = formData.get('appUrl') as string;
     }
-
-    // Show loading state
-    submitButton.classList.add('loading');
-    submitButton.textContent = 'Sending...';
 
     try {
       const response = await fetch('/api/subscribe', {

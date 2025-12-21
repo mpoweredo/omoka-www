@@ -116,10 +116,18 @@ const navLinks = [
         </Typography>
       </div>
 
-      <!-- Copyright pinned to bottom -->
+      <!-- Copyright and legal notices pinned to bottom -->
       <div class="copyright">
         <Typography tag="span" styling="bodyS">
-          © 2025 omoka All rights reserved.
+          © 2025 omoka All rights reserved. Protected by reCAPTCHA (<a
+            href="https://policies.google.com/privacy"
+            target="_blank"
+            rel="noopener">Privacy</a
+          >, <a
+            href="https://policies.google.com/terms"
+            target="_blank"
+            rel="noopener">Terms</a
+          >)
         </Typography>
       </div>
     </div>
@@ -368,6 +376,16 @@ const navLinks = [
     /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
     :global(span) {
       color: var(--black);
+    }
+
+    // Links in copyright (reCAPTCHA)
+    :global(a) {
+      color: var(--black);
+      text-decoration: underline;
+
+      &:hover {
+        opacity: 0.7;
+      }
     }
   }
 

@@ -3,6 +3,13 @@ import type { APIRoute } from 'astro';
 // MailerLite API configuration
 const MAILERLITE_API_KEY = import.meta.env.MAILERLITE_API_KEY;
 
+// reCAPTCHA v3 secret key (keep this secret - never expose in frontend!)
+const RECAPTCHA_SECRET_KEY = import.meta.env.RECAPTCHA_SECRET_KEY;
+
+// Minimum score to accept (0.0 = likely bot, 1.0 = likely human)
+// 0.5 is Google's recommended threshold
+const RECAPTCHA_MIN_SCORE = 0.5;
+
 // Group IDs for different submission types
 const GROUP_EMAIL_ONLY = '174406282445326180'; // OMOKA ONLY EMAIL
 const GROUP_FULL_DATA = '174406288850028377'; // OMOKA FULL DATA
@@ -14,6 +21,58 @@ interface SubscribeData {
   website?: string;
   appUrl?: string;
   country?: string; // Auto-detected from browser
+  recaptchaToken?: string; // reCAPTCHA v3 token
+}
+
+// reCAPTCHA verification response from Google
+interface RecaptchaResponse {
+  success: boolean;
+  score?: number; // 0.0 - 1.0 (only in v3)
+  action?: string;
+  challenge_ts?: string;
+  hostname?: string;
+  'error-codes'?: string[];
+}
+
+// Verify reCAPTCHA token with Google
+async function verifyRecaptcha(token: string): Promise<{
+  success: boolean;
+  score?: number;
+  error?: string;
+}> {
+  try {
+    const response = await fetch(
+      'https://www.google.com/recaptcha/api/siteverify',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: new URLSearchParams({
+          secret: RECAPTCHA_SECRET_KEY,
+          response: token,
+        }),
+      },
+    );
+
+    const result: RecaptchaResponse = await response.json();
+
+    if (!result.success) {
+      console.error('reCAPTCHA verification failed:', result['error-codes']);
+      return { success: false, error: 'Verification failed' };
+    }
+
+    // Check score (v3 specific)
+    if (result.score !== undefined && result.score < RECAPTCHA_MIN_SCORE) {
+      console.warn(`reCAPTCHA low score: ${result.score}`);
+      return { success: false, score: result.score, error: 'Low score' };
+    }
+
+    return { success: true, score: result.score };
+  } catch (error) {
+    console.error('reCAPTCHA verification error:', error);
+    return { success: false, error: 'Verification request failed' };
+  }
 }
 
 export const POST: APIRoute = async ({ request }) => {
@@ -29,7 +88,33 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    // Check if API key is configured
+    // Verify reCAPTCHA if token is provided and secret key is configured
+    if (RECAPTCHA_SECRET_KEY && data.recaptchaToken) {
+      const recaptchaResult = await verifyRecaptcha(data.recaptchaToken);
+
+      if (!recaptchaResult.success) {
+        console.warn(
+          `reCAPTCHA blocked submission for: ${data.email}, reason: ${recaptchaResult.error}`,
+        );
+        return new Response(
+          JSON.stringify({
+            success: false,
+            message: 'Security verification failed. Please try again.',
+          }),
+          { status: 403, headers: { 'Content-Type': 'application/json' } },
+        );
+      }
+
+      console.log(
+        `reCAPTCHA passed for: ${data.email}, score: ${recaptchaResult.score}`,
+      );
+    } else if (RECAPTCHA_SECRET_KEY && !data.recaptchaToken) {
+      // If secret is configured but no token provided, log warning but allow
+      // This handles cases where reCAPTCHA script failed to load
+      console.warn(`No reCAPTCHA token for submission: ${data.email}`);
+    }
+
+    // Check if MailerLite API key is configured
     if (!MAILERLITE_API_KEY) {
       console.error('MailerLite API key not configured');
       return new Response(
@@ -90,8 +175,8 @@ export const POST: APIRoute = async ({ request }) => {
         JSON.stringify({
           success: true,
           message: hasFullData
-            ? "Welcome! You've unlocked all rewards."
-            : "You're on the list!",
+            ? 'All set! The launch details are on their way to your inbox.'
+            : 'Request received. You should receive the details shortly.',
         }),
         { status: 200, headers: { 'Content-Type': 'application/json' } },
       );
