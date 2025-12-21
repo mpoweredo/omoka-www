@@ -5,6 +5,11 @@ import ChatTeardropText from 'phosphor-astro/ChatTeardropTextLight.astro';
 import Scan from 'phosphor-astro/ScanLight.astro';
 import BugBeetle from 'phosphor-astro/BugBeetleLight.astro';
 import { SECTIONS } from '~consts/sections';
+
+import contextLottie from '~assets/lottie/context.json?url';
+import delegationLottie from '~assets/lottie/delegation.json?url';
+import simulationLottie from '~assets/lottie/simulation.json?url';
+import bugsLottie from '~assets/lottie/bugs.json?url';
 ---
 
 <script src="https://cdn.lottielab.com/s/lottie-player@1.x/player-web.min.js"
@@ -62,12 +67,7 @@ import { SECTIONS } from '~consts/sections';
           </Typography>
         </div>
         <div class="lottie">
-          <lottie-player
-            class="lottieplayer"
-            src={'/src/assets/lottie/context.json'}
-            autoplay
-            loop
-          >
+          <lottie-player class="lottieplayer" src={contextLottie} autoplay loop>
           </lottie-player>
         </div>
       </div>
@@ -88,7 +88,7 @@ import { SECTIONS } from '~consts/sections';
         <div class="lottie">
           <lottie-player
             class="lottieplayer"
-            src={'/src/assets/lottie/delegation.json'}
+            src={delegationLottie}
             autoplay
             loop
           >
@@ -110,7 +110,7 @@ import { SECTIONS } from '~consts/sections';
         <div class="lottie simulation">
           <lottie-player
             class="lottieplayer"
-            src={'/src/assets/lottie/simulation.json'}
+            src={simulationLottie}
             autoplay
             loop
           >
@@ -131,12 +131,7 @@ import { SECTIONS } from '~consts/sections';
           </Typography>
         </div>
         <div class="lottie">
-          <lottie-player
-            class="lottieplayer"
-            src={'/src/assets/lottie/bugs.json'}
-            autoplay
-            loop
-          >
+          <lottie-player class="lottieplayer" src={bugsLottie} autoplay loop>
           </lottie-player>
         </div>
       </div>
