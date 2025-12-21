@@ -15,17 +15,23 @@ RUN pnpm install --frozen-lockfile
 # Kopiujemy kod źródłowy
 COPY . .
 
-# Budujemy statyczne pliki
+# Budujemy aplikację
 RUN pnpm run build
 
-# Stage 2: Production - serwujemy przez nginx
-FROM nginx:alpine AS runtime
+# Stage 2: Production - uruchamiamy serwer Node.js
+FROM node:20.15.1-alpine AS runtime
 
-# Kopiujemy konfigurację nginx
-COPY nginx.conf /etc/nginx/nginx.conf
+WORKDIR /app
 
-# Kopiujemy zbudowane statyczne pliki
-COPY --from=build /app/dist /usr/share/nginx/html
+# Kopiujemy zbudowaną aplikację
+COPY --from=build /app/dist ./dist
+
+# Ustawiamy port (Astro node adapter domyślnie używa 4321)
+ENV HOST=0.0.0.0
+ENV PORT=3021
 
 # Eksponujemy port
 EXPOSE 3021
+
+# Uruchamiamy serwer
+CMD ["node", "./dist/server/entry.mjs"]
