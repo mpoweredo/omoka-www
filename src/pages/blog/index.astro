@@ -7,6 +7,9 @@ import { Image } from 'astro:assets';
 import Button from '~components/ui/Button.astro';
 import ArrowUpRight from 'phosphor-astro/ArrowUpRight.astro';
 
+// Pre-render at build time (static)
+export const prerender = true;
+
 const images = import.meta.glob<{ default: ImageMetadata }>(
   '/src/assets/blog/*.{jpeg,jpg,png,gif,webp,svg}',
 );
@@ -37,19 +40,15 @@ const fillers = Array.from({ length: fillerCount });
 
 <MainLayout
   title="omoka | Blog"
-  description="Insights, tips, and best practices for QA testing and software development."
+  description="Insights, tips, and best practices for AI-powered QA testing."
 >
   <div class="blogContainer">
     <!-- Hero Section -->
     <section class="heroSection">
       <div class="heroContent">
-        <h1 class="heroTitle">Blog</h1>
+        <h1 class="heroTitle">Blog for AI-powered QA testing</h1>
         <div class="heroCta">
-          <Button
-            href="https://app.devtimate.com/sign-up"
-            variant="primary"
-            withArrow
-          >
+          <Button href="/request-access" variant="primary" withArrow>
             Request Access
           </Button>
         </div>
@@ -105,6 +104,9 @@ const fillers = Array.from({ length: fillerCount });
       {/* Filler cells for desktop grid */}
       {fillers.map(() => <div class="postCard filler" />)}
     </section>
+
+    <!-- Border spacer to connect with footer -->
+    <div class="borderSpacer"></div>
   </div>
 </MainLayout>
 
@@ -294,5 +296,15 @@ const fillers = Array.from({ length: fillerCount });
 
     object-fit: cover;
     object-position: center;
+  }
+
+  // ==========================================
+  // Border spacer to connect with footer
+  // ==========================================
+  .borderSpacer {
+    flex: 1; // Fill remaining space to connect with footer
+    min-height: 120px;
+    border-right: 1px solid var(--gray-800);
+    border-left: 1px solid var(--gray-800);
   }
 </style>

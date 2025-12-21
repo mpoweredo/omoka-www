@@ -7,6 +7,10 @@ interface Props {
   href?: string;
   isFullWidth?: boolean;
   withArrow?: boolean;
+  // New props for button functionality
+  as?: 'a' | 'button';
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
 }
 
 const {
@@ -15,28 +19,52 @@ const {
   href,
   isFullWidth,
   withArrow,
+  as = 'a',
+  type = 'button',
+  disabled = false,
 } = Astro.props as Props;
+
+// Determine element type: explicit 'as' prop, or 'button' if no href
+const Element = as === 'button' || !href ? 'button' : 'a';
 ---
 
-<a
-  href={href}
-  target="_blank"
-  class:list={[
-    className,
-    'button',
-    'container',
-    variant,
-    isFullWidth && 'fullWidth',
-  ]}
->
-  <slot />
-
-  {
-    withArrow && (
-      <ArrowDownRight class={'arrow'} height={'2.6rem'} width={'2.6rem'} />
-    )
-  }
-</a>
+{
+  Element === 'a' ? (
+    <a
+      href={href}
+      class:list={[
+        className,
+        'button',
+        'container',
+        variant,
+        isFullWidth && 'fullWidth',
+      ]}
+    >
+      <slot />
+      {withArrow && (
+        <ArrowDownRight class={'arrow'} height={'2.6rem'} width={'2.6rem'} />
+      )}
+    </a>
+  ) : (
+    <button
+      type={type}
+      disabled={disabled}
+      class:list={[
+        className,
+        'button',
+        'container',
+        variant,
+        isFullWidth && 'fullWidth',
+        disabled && 'disabled',
+      ]}
+    >
+      <slot />
+      {withArrow && (
+        <ArrowDownRight class={'arrow'} height={'2.6rem'} width={'2.6rem'} />
+      )}
+    </button>
+  )
+}
 
 <style>
   .container {
@@ -50,8 +78,12 @@ const {
     width: fit-content;
     height: 4.4rem;
     padding: 0 var(--s-24);
+    border: none;
     border-radius: var(--radius-max);
 
+    font-family: Grotesk, sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
     text-decoration: none;
     letter-spacing: 0.25px;
     white-space: nowrap;
@@ -61,13 +93,18 @@ const {
     &.fullWidth {
       width: 100%;
     }
+
+    &.disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
   }
 
   .primary {
     color: var(--black);
     background-color: var(--primary-500);
 
-    &:hover {
+    &:hover:not(.disabled) {
       background-color: var(--primary-400);
     }
   }
