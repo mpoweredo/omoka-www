@@ -42,7 +42,14 @@ const Element = as === 'button' || !href ? 'button' : 'a';
     >
       <slot />
       {withArrow && (
-        <ArrowDownRight class={'arrow'} height={'2.6rem'} width={'2.6rem'} />
+        <span class="arrow-wrapper">
+          <ArrowDownRight class={'arrow'} height={'2.6rem'} width={'2.6rem'} />
+          <ArrowDownRight
+            class={'arrow arrow-clone'}
+            height={'2.6rem'}
+            width={'2.6rem'}
+          />
+        </span>
       )}
     </a>
   ) : (
@@ -60,7 +67,14 @@ const Element = as === 'button' || !href ? 'button' : 'a';
     >
       <slot />
       {withArrow && (
-        <ArrowDownRight class={'arrow'} height={'2.6rem'} width={'2.6rem'} />
+        <span class="arrow-wrapper">
+          <ArrowDownRight class={'arrow'} height={'2.6rem'} width={'2.6rem'} />
+          <ArrowDownRight
+            class={'arrow arrow-clone'}
+            height={'2.6rem'}
+            width={'2.6rem'}
+          />
+        </span>
       )}
     </button>
   )
@@ -114,7 +128,38 @@ const Element = as === 'button' || !href ? 'button' : 'a';
     background-color: var(--black);
   }
 
+  /* Arrow fly-through animation container */
+  .arrow-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.6rem;
+    height: 2.6rem;
+  }
+
   .arrow {
     transform: rotate(-90deg);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  /* Clone arrow - positioned outside (bottom-left), ready to fly in */
+  .arrow-clone {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* Starts at lower-left, ready to fly in to upper-right */
+    transform: rotate(-90deg) translate(-100%, -100%);
+  }
+
+  /* On hover: original arrow flies out (up-right), clone flies in */
+  .container:hover .arrow:not(.arrow-clone) {
+    /* Flies out to upper-right (direction arrow points) */
+    transform: rotate(-90deg) translate(100%, 100%);
+  }
+
+  .container:hover .arrow-clone {
+    transform: rotate(-90deg) translate(0%, 0%);
   }
 </style>
