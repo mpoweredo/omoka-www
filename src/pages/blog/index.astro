@@ -104,6 +104,9 @@ const fillers = Array.from({ length: fillerCount });
       {/* Filler cells for desktop grid */}
       {fillers.map(() => <div class="postCard filler" />)}
     </section>
+
+    <!-- Border spacer to connect with footer -->
+    <div class="borderSpacer"></div>
   </div>
 </MainLayout>
 
@@ -293,5 +296,15 @@ const fillers = Array.from({ length: fillerCount });
 
     object-fit: cover;
     object-position: center;
+  }
+
+  // ==========================================
+  // Border spacer to connect with footer
+  // ==========================================
+  .borderSpacer {
+    flex: 1; // Fill remaining space to connect with footer
+    min-height: 120px;
+    border-right: 1px solid var(--gray-800);
+    border-left: 1px solid var(--gray-800);
   }
 </style>
