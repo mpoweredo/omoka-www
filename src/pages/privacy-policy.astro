@@ -3,6 +3,9 @@ import MainLayout from '~layouts/MainLayout.astro';
 import { getEntry, type CollectionEntry } from 'astro:content';
 import '~styles/partials/markdown.scss';
 
+// Pre-render at build time (static)
+export const prerender = true;
+
 const entry = (await getEntry(
   'legal',
   'privacy-policy',
@@ -11,7 +14,7 @@ const { Content } = await entry.render();
 ---
 
 <MainLayout
-  title={`devtimate | ${entry.data.title}`}
+  title={`omoka | ${entry.data.title}`}
   description={entry.data.description}
 >
   <article class="markdown">

@@ -1,0 +1,804 @@
+---
+// RequestAccess section - Form for early access signup
+// Mobile: Stack vertically (Text -> Green tile -> Dark form)
+// Desktop: 2 columns (Left: Text/Value Prop, Right: Green tile on top + Dark form below)
+
+import Typography from '~components/ui/Typography.astro';
+import Button from '~components/ui/Button.astro';
+import Check from 'phosphor-astro/Check.astro';
+import CaretDown from 'phosphor-astro/CaretDown.astro';
+
+// Benefits list for full data submission
+const benefits = [
+  {
+    title: 'Free AI bug audit.',
+    description: 'Receive a bug report before launch.',
+  },
+  {
+    title: 'Priority queue.',
+    description: 'Jump straight to the front of the waiting list.',
+  },
+  {
+    title: 'Early adopter discount.',
+    description: 'Lock in a special launch price.',
+  },
+];
+
+// Role options for select dropdown
+const roleOptions = [
+  { value: 'founder', label: 'Founder / C-Level' },
+  { value: 'product_manager', label: 'Product Manager' },
+  { value: 'developer', label: 'Developer' },
+  { value: 'qa_engineer', label: 'QA Engineer' },
+  { value: 'other', label: 'Other' },
+];
+
+// Team size options for select dropdown
+const teamSizeOptions = [
+  { value: 'solo', label: 'Solo' },
+  { value: '2-5', label: '2-5' },
+  { value: '6-20', label: '6-20' },
+  { value: '21-50', label: '21-50' },
+  { value: '51+', label: '51+' },
+];
+---
+
+<section class="requestAccess">
+  <!-- Top spacer with borders (connects to header) -->
+  <div class="borderSpacer"></div>
+
+  <div class="gridContainer">
+    <!-- Left Column: Text / Value Proposition -->
+    <div class="leftColumn">
+      <div class="leftContent">
+        <Typography tag="h1" styling="headingL" color="white">
+          Get early access to<br />AI-powered QA testing
+        </Typography>
+
+        <Typography tag="p" styling="paragraphL" color="gray400">
+          Beta launches Q1 2026. You can join with just your email, or provide
+          full details to unlock three exclusive benefits.
+        </Typography>
+
+        <div class="benefitsSection">
+          <Typography
+            tag="span"
+            styling="bodyM"
+            color="gray500"
+            class="benefitsLabel"
+          >
+            FULL DATA UNLOCKS:
+          </Typography>
+
+          <div class="benefitsList">
+            {
+              benefits.map((benefit) => (
+                <div class="benefitItem">
+                  <Check class="checkIcon" />
+                  <div class="benefitText">
+                    <Typography tag="span" styling="paragraphM" color="gray300">
+                      <strong>{benefit.title}</strong> {benefit.description}
+                    </Typography>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Form Sections -->
+    <form id="requestAccessForm" class="rightColumn" novalidate>
+      <!-- Green Tile: Required Email Field -->
+      <div class="greenTile">
+        <Typography
+          tag="span"
+          styling="bodyL"
+          color="black"
+          class="sectionLabel"
+        >
+          SECURE YOUR SPOT (REQUIRED)
+        </Typography>
+
+        <div class="formGroup">
+          <label for="email" class="fieldLabel">
+            <Typography tag="span" styling="paragraphL" color="black">
+              Email address
+            </Typography>
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="you@company.com"
+            class="inputField inputFieldGreen"
+            required
+          />
+          <span class="errorMessage" id="emailError"></span>
+        </div>
+      </div>
+
+      <!-- Dark Tile: Optional Fields -->
+      <div class="darkTile">
+        <Typography
+          tag="span"
+          styling="bodyL"
+          color="gray300"
+          class="sectionLabel"
+        >
+          UNLOCK YOUR REWARDS (OPTIONAL)
+        </Typography>
+
+        <div class="formFields">
+          <!-- Primary Role Select -->
+          <div class="formGroup">
+            <label for="role" class="fieldLabel">
+              <Typography tag="span" styling="paragraphL" color="white">
+                Primary role
+              </Typography>
+            </label>
+            <div class="selectWrapper">
+              <select
+                id="role"
+                name="role"
+                class="selectField optionalField placeholder"
+              >
+                <option value="">Select role...</option>
+                {
+                  roleOptions.map((option) => (
+                    <option value={option.value}>{option.label}</option>
+                  ))
+                }
+              </select>
+              <CaretDown class="selectIcon" />
+            </div>
+          </div>
+
+          <!-- Team Size Select -->
+          <div class="formGroup">
+            <label for="teamSize" class="fieldLabel">
+              <Typography tag="span" styling="paragraphL" color="white">
+                Team size
+              </Typography>
+            </label>
+            <div class="selectWrapper">
+              <select
+                id="teamSize"
+                name="teamSize"
+                class="selectField optionalField placeholder"
+              >
+                <option value="">Select size...</option>
+                {
+                  teamSizeOptions.map((option) => (
+                    <option value={option.value}>{option.label}</option>
+                  ))
+                }
+              </select>
+              <CaretDown class="selectIcon" />
+            </div>
+          </div>
+
+          <!-- Company Website Input -->
+          <div class="formGroup">
+            <label for="website" class="fieldLabel">
+              <Typography tag="span" styling="paragraphL" color="white">
+                Company website
+              </Typography>
+            </label>
+            <input
+              type="text"
+              id="website"
+              name="website"
+              placeholder="company.com"
+              class="inputField optionalField"
+            />
+          </div>
+
+          <!-- App URL Input -->
+          <div class="formGroup">
+            <label for="appUrl" class="fieldLabel">
+              <Typography tag="span" styling="paragraphL" color="white">
+                Where should omoka look for bugs?
+              </Typography>
+            </label>
+            <input
+              type="text"
+              id="appUrl"
+              name="appUrl"
+              placeholder="App or website URL"
+              class="inputField optionalField"
+            />
+          </div>
+
+          <span class="errorMessage" id="optionalError"></span>
+        </div>
+
+        <!-- Submit Button -->
+        <Button as="button" type="submit" variant="primary" withArrow>
+          Request Access
+        </Button>
+
+        <!-- Success/Error Messages -->
+        <div id="formMessage" class="formMessage"></div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Bottom spacer with borders (extends to footer) -->
+  <div class="borderSpacerBottom"></div>
+</section>
+
+<style lang="scss">
+  @use '~styles/mixins/media' as *;
+
+  .requestAccess {
+    // Offset for fixed header
+    padding-top: var(--header-height);
+    width: 100%;
+  }
+
+  // Empty bordered spacer area (top)
+  .borderSpacer {
+    height: 120px;
+    border-right: 1px solid var(--gray-800);
+    border-left: 1px solid var(--gray-800);
+  }
+
+  // Bottom spacer - connects to footer
+  .borderSpacerBottom {
+    height: 120px;
+    border-right: 1px solid var(--gray-800);
+    border-bottom: 1px solid var(--gray-800);
+    border-left: 1px solid var(--gray-800);
+  }
+
+  .gridContainer {
+    display: grid;
+    grid-template-columns: 1fr;
+    border-top: 1px solid var(--gray-800);
+    border-left: 1px solid var(--gray-800);
+
+    // Desktop: 2 columns
+    @include media-min('md') {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  // Left Column - Text/Value Proposition
+  .leftColumn {
+    display: flex;
+    flex-direction: column;
+
+    padding: var(--s-32);
+    border-right: 1px solid var(--gray-800);
+    border-bottom: 1px solid var(--gray-800);
+
+    background-color: var(--black);
+
+    @include media-min('md') {
+      padding: var(--s-46);
+    }
+  }
+
+  .leftContent {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-24);
+
+    // Vertically center content on desktop
+    @include media-min('md') {
+      height: 100%;
+    }
+  }
+
+  // Benefits section with checklist
+  .benefitsSection {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-16);
+    margin-top: var(--s-16);
+  }
+
+  .benefitsLabel {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .benefitsList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-12);
+  }
+
+  .benefitItem {
+    display: flex;
+    gap: var(--s-10);
+    align-items: flex-start;
+  }
+
+  .checkIcon {
+    flex-shrink: 0;
+    width: 1.8rem;
+    height: 1.8rem;
+    margin-top: 0.2rem;
+    color: var(--white);
+  }
+
+  .benefitText {
+    :global(strong) {
+      font-weight: 500;
+      color: var(--white);
+    }
+  }
+
+  // Right Column container
+  .rightColumn {
+    display: contents;
+
+    @include media-min('md') {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  // Green Tile - Required Email Section
+  .greenTile {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-20);
+
+    padding: var(--s-32);
+    border-right: 1px solid var(--gray-800);
+    border-bottom: 1px solid var(--gray-800);
+
+    background-color: var(--primary-500);
+
+    @include media-min('md') {
+      padding: var(--s-40);
+    }
+  }
+
+  // Dark Tile - Optional Fields Section
+  .darkTile {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-24);
+
+    padding: var(--s-32);
+    border-right: 1px solid var(--gray-800);
+    border-bottom: 1px solid var(--gray-800);
+
+    background-color: var(--black);
+
+    @include media-min('md') {
+      padding: var(--s-40);
+    }
+  }
+
+  // Section labels (SECURE YOUR SPOT, UNLOCK YOUR REWARDS)
+  .sectionLabel {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  // Form fields container
+  .formFields {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-24);
+  }
+
+  // Individual form group (label + input)
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-8);
+  }
+
+  // Field labels
+  // Label wrapper - Typography inside handles styling
+  .fieldLabel {
+    display: block;
+  }
+
+  // Base input styles (underline style)
+  .inputField {
+    width: 100%;
+    padding: var(--s-12) 0;
+    border: none;
+    border-bottom: 1px solid var(--gray-700);
+
+    font-family: Grotesk, sans-serif;
+    font-size: 1.8rem; // Match paragraphL
+    font-weight: 400;
+    color: var(--white);
+
+    background-color: transparent;
+
+    transition: border-color 0.2s ease;
+
+    &::placeholder {
+      color: var(--gray-500);
+    }
+
+    &:focus {
+      border-bottom-color: var(--white);
+      outline: none;
+    }
+
+    // Override browser autofill styles (dark tile)
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      // Use box-shadow trick to override background
+      box-shadow: 0 0 0 1000px var(--black) inset !important;
+      -webkit-box-shadow: 0 0 0 1000px var(--black) inset !important;
+      -webkit-text-fill-color: var(--white) !important;
+      caret-color: var(--white);
+    }
+  }
+
+  // Green tile input variation
+  .inputFieldGreen {
+    border-bottom-color: rgba(0, 0, 0, 0.2);
+    color: var(--black);
+
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.5);
+    }
+
+    &:focus {
+      border-bottom-color: var(--black);
+    }
+
+    // Override browser autofill styles (green tile)
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      box-shadow: 0 0 0 1000px var(--primary-500) inset !important;
+      -webkit-box-shadow: 0 0 0 1000px var(--primary-500) inset !important;
+      -webkit-text-fill-color: var(--black) !important;
+      caret-color: var(--black);
+    }
+  }
+
+  // Select wrapper for custom dropdown styling
+  .selectWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  // Select field (underline style)
+  .selectField {
+    cursor: pointer;
+
+    width: 100%;
+    padding: var(--s-12) 0;
+    padding-right: var(--s-32);
+    border: none;
+    border-bottom: 1px solid var(--gray-700);
+
+    font-family: Grotesk, sans-serif;
+    font-size: 1.8rem; // Match paragraphL
+    font-weight: 400;
+    color: var(--white);
+
+    background-color: transparent;
+
+    appearance: none;
+    transition:
+      border-color 0.2s ease,
+      color 0.2s ease;
+
+    // Placeholder state - dim color like input placeholders
+    &.placeholder {
+      color: var(--gray-500);
+    }
+
+    &:focus {
+      border-bottom-color: var(--white);
+      outline: none;
+    }
+
+    // Style for select options
+    option {
+      color: var(--black);
+      background-color: var(--white);
+    }
+  }
+
+  // Caret icon for select
+  .selectIcon {
+    pointer-events: none;
+
+    position: absolute;
+    right: 0;
+
+    width: 2rem;
+    height: 2rem;
+
+    color: var(--gray-400);
+  }
+
+  // Submit button wrapper - adds top margin to Button component
+  .darkTile :global(.button) {
+    margin-top: var(--s-16);
+  }
+
+  // Error message styling
+  .errorMessage {
+    display: none;
+    margin-top: var(--s-8);
+
+    font-size: 1.4rem;
+    color: #ff6b6b;
+
+    &.visible {
+      display: block;
+    }
+  }
+
+  // Green tile error - darker red for contrast
+  .greenTile .errorMessage {
+    color: #c92a2a;
+  }
+
+  // Form message (success/error after submit)
+  .formMessage {
+    display: none;
+    margin-top: var(--s-16);
+    padding: var(--s-12) var(--s-16);
+    border-radius: var(--radius-sm);
+
+    font-size: 1.4rem;
+    text-align: center;
+
+    &.visible {
+      display: block;
+    }
+
+    &.success {
+      color: var(--black);
+      background-color: var(--primary-500);
+    }
+
+    &.error {
+      color: var(--white);
+      background-color: #c92a2a;
+    }
+  }
+
+  // Input error state
+  .inputField.error,
+  .selectField.error {
+    border-bottom-color: #ff6b6b;
+  }
+
+  .inputFieldGreen.error {
+    border-bottom-color: #c92a2a;
+  }
+
+  // Loading state for button
+  .darkTile :global(.button.loading) {
+    pointer-events: none;
+    opacity: 0.7;
+  }
+</style>
+
+<script>
+  // Form validation and submission script
+  const form = document.getElementById('requestAccessForm') as HTMLFormElement;
+  const emailInput = document.getElementById('email') as HTMLInputElement;
+  const emailError = document.getElementById('emailError') as HTMLSpanElement;
+  const optionalError = document.getElementById(
+    'optionalError',
+  ) as HTMLSpanElement;
+  const formMessage = document.getElementById('formMessage') as HTMLDivElement;
+  const submitButton = form?.querySelector(
+    'button[type="submit"]',
+  ) as HTMLButtonElement;
+
+  // Optional fields
+  const optionalFields = form?.querySelectorAll('.optionalField') as NodeListOf<
+    HTMLInputElement | HTMLSelectElement
+  >;
+
+  // Handle select placeholder styling
+  // Remove placeholder class when a value is selected, add it back when empty
+  const selectFields = form?.querySelectorAll(
+    'select.selectField',
+  ) as NodeListOf<HTMLSelectElement>;
+  selectFields?.forEach((select) => {
+    select.addEventListener('change', () => {
+      if (select.value) {
+        select.classList.remove('placeholder');
+      } else {
+        select.classList.add('placeholder');
+      }
+    });
+  });
+
+  // Email validation regex
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  // Check if any optional field has a value
+  function hasAnyOptionalValue(): boolean {
+    return Array.from(optionalFields).some(
+      (field) => field.value.trim() !== '',
+    );
+  }
+
+  // Check if all optional fields have values
+  function hasAllOptionalValues(): boolean {
+    return Array.from(optionalFields).every(
+      (field) => field.value.trim() !== '',
+    );
+  }
+
+  // Show error message
+  function showError(element: HTMLElement, message: string) {
+    element.textContent = message;
+    element.classList.add('visible');
+  }
+
+  // Hide error message
+  function hideError(element: HTMLElement) {
+    element.textContent = '';
+    element.classList.remove('visible');
+  }
+
+  // Show form message
+  function showFormMessage(message: string, type: 'success' | 'error') {
+    formMessage.textContent = message;
+    formMessage.className = `formMessage visible ${type}`;
+  }
+
+  // Hide form message
+  function hideFormMessage() {
+    formMessage.className = 'formMessage';
+  }
+
+  // Validate email
+  function validateEmail(): boolean {
+    const email = emailInput.value.trim();
+
+    if (!email) {
+      showError(emailError, 'Email is required');
+      emailInput.classList.add('error');
+      return false;
+    }
+
+    if (!emailRegex.test(email)) {
+      showError(emailError, 'Please enter a valid email address');
+      emailInput.classList.add('error');
+      return false;
+    }
+
+    hideError(emailError);
+    emailInput.classList.remove('error');
+    return true;
+  }
+
+  // Validate optional fields (all or nothing)
+  function validateOptionalFields(): boolean {
+    const hasAny = hasAnyOptionalValue();
+    const hasAll = hasAllOptionalValues();
+
+    // If user touched any optional field, all must be filled
+    if (hasAny && !hasAll) {
+      showError(
+        optionalError,
+        'Please complete all optional fields or leave them all empty',
+      );
+      optionalFields.forEach((field) => {
+        if (!field.value.trim()) {
+          field.classList.add('error');
+        }
+      });
+      return false;
+    }
+
+    hideError(optionalError);
+    optionalFields.forEach((field) => field.classList.remove('error'));
+    return true;
+  }
+
+  // Clear field error on input
+  emailInput?.addEventListener('input', () => {
+    hideError(emailError);
+    emailInput.classList.remove('error');
+    hideFormMessage();
+  });
+
+  optionalFields?.forEach((field) => {
+    field.addEventListener('input', () => {
+      hideError(optionalError);
+      optionalFields.forEach((f) => f.classList.remove('error'));
+      hideFormMessage();
+    });
+    field.addEventListener('change', () => {
+      hideError(optionalError);
+      optionalFields.forEach((f) => f.classList.remove('error'));
+      hideFormMessage();
+    });
+  });
+
+  // Form submission
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    // Validate
+    const isEmailValid = validateEmail();
+    const isOptionalValid = validateOptionalFields();
+
+    if (!isEmailValid || !isOptionalValid) {
+      return;
+    }
+
+    // Prepare data
+    const formData = new FormData(form);
+    const data: Record<string, string> = {};
+
+    // Always include email
+    data.email = formData.get('email') as string;
+
+    // Auto-detect country from browser (silent, user doesn't see this)
+    // Uses timezone to estimate country - more reliable than navigator.language
+    try {
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const locale =
+        navigator.language || navigator.languages?.[0] || 'unknown';
+      data.country = `${locale} (${timezone})`;
+    } catch {
+      data.country = 'unknown';
+    }
+
+    // Include optional fields only if all are filled
+    if (hasAllOptionalValues()) {
+      data.role = formData.get('role') as string;
+      data.teamSize = formData.get('teamSize') as string;
+      data.website = formData.get('website') as string;
+      data.appUrl = formData.get('appUrl') as string;
+    }
+
+    // Show loading state
+    submitButton.classList.add('loading');
+    submitButton.textContent = 'Sending...';
+
+    try {
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        showFormMessage(
+          result.message || "Thank you! You're on the list.",
+          'success',
+        );
+        form.reset();
+        // Reset select placeholders after form reset
+        selectFields?.forEach((select) => select.classList.add('placeholder'));
+      } else {
+        showFormMessage(
+          result.message || 'Something went wrong. Please try again.',
+          'error',
+        );
+      }
+    } catch (error) {
+      showFormMessage('Network error. Please try again.', 'error');
+    } finally {
+      submitButton.classList.remove('loading');
+      submitButton.textContent = 'Request Access';
+    }
+  });
+</script>

@@ -5,6 +5,9 @@ import Typography from '~components/ui/Typography.astro';
 import { PAGES } from '~consts/pages';
 import { Image } from 'astro:assets';
 
+// Pre-render at build time (static)
+export const prerender = true;
+
 const images = import.meta.glob<{ default: ImageMetadata }>(
   '/src/assets/blog/*.{jpeg,jpg,png,gif,webp}',
 );

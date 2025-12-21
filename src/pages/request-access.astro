@@ -1,0 +1,14 @@
+---
+import MainLayout from '~layouts/MainLayout.astro';
+import RequestAccessSection from '~components/sections/RequestAccess.astro';
+
+// Pre-render at build time (static)
+export const prerender = true;
+---
+
+<MainLayout
+  title="Request Access | omoka - AI Agent for QA Testing"
+  description="Get early access to omoka, the visual AI agent that tests your app like a human. Join the waitlist for AI-powered QA testing with automatic bug tickets."
+>
+  <RequestAccessSection />
+</MainLayout>

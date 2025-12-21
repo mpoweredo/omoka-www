@@ -9,6 +9,9 @@ import { PAGES } from '~consts/pages';
 import { Image } from 'astro:assets';
 import glass from '~assets/doodles/glass.svg';
 
+// Pre-render at build time (static)
+export const prerender = true;
+
 export async function getStaticPaths() {
   const glossaryTerms = (await getCollection(
     'glossary',

@@ -4,6 +4,9 @@ import { getCollection } from 'astro:content';
 import Typography from '~components/ui/Typography.astro';
 import { PAGES } from '~consts/pages';
 
+// Pre-render at build time (static)
+export const prerender = true;
+
 // Get all glossary terms and sort alphabetically
 const allTerms = await getCollection('glossary');
 const sortedTerms = allTerms.sort((a, b) => {
