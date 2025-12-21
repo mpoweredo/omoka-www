@@ -4,9 +4,11 @@ import { getCollection } from 'astro:content';
 import Typography from '~components/ui/Typography.astro';
 import { PAGES } from '~consts/pages';
 import { Image } from 'astro:assets';
+import Button from '~components/ui/Button.astro';
+import ArrowUpRight from 'phosphor-astro/ArrowUpRight.astro';
 
 const images = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/assets/blog/*.{jpeg,jpg,png,gif,webp}',
+  '/src/assets/blog/*.{jpeg,jpg,png,gif,webp,svg}',
 );
 
 const allPosts = await getCollection('blog');
@@ -27,154 +29,270 @@ const truncateText = (text: string, maxLength: number = 90) => {
   if (text.length <= maxLength) return text;
   return text.slice(0, maxLength).trim() + '...';
 };
+
+// Calculate filler cells to complete the last row on desktop (3 columns)
+const fillerCount = (3 - (sortedPosts.length % 3)) % 3;
+const fillers = Array.from({ length: fillerCount });
 ---
 
 <MainLayout
-  title="devtimate | Blog"
-  description="Insights, tips, and best practices for software project estimation and management."
+  title="omoka | Blog"
+  description="Insights, tips, and best practices for QA testing and software development."
 >
-  <section>
-    <header>
-      <Typography tag="h1" styling="headingL"
-        >Software project estimation <span class="highlightText"
-          >tips and guides</span
-        >
-      </Typography>
-      <Typography tag="p" styling="paragraphL">
-        Learn how to make better software project estimates, respond faster to
-        client requests,<br /> and increase your win rate with smarter estimation
-        practices.
-      </Typography>
-    </header>
+  <div class="blogContainer">
+    <!-- Hero Section -->
+    <section class="heroSection">
+      <div class="heroContent">
+        <h1 class="heroTitle">Blog</h1>
+        <div class="heroCta">
+          <Button
+            href="https://app.devtimate.com/sign-up"
+            variant="primary"
+            withArrow
+          >
+            Request Access
+          </Button>
+        </div>
+      </div>
+    </section>
 
-    <div class="posts">
+    <!-- Blog Grid -->
+    <section class="postsGrid">
       {
         sortedPosts.map(async (post) => {
           const imagePath = `/src/assets/blog/${post.data.coverImage}`;
           const imageModule = await images[imagePath]();
 
           return (
-            <article>
-              <a href={`${PAGES.BLOG}/${post.slug}`}>
-                <div class="postContent">
-                  <Image
-                    class="postImage"
-                    src={imageModule.default}
-                    alt={post.data.title}
-                    inferSize={true}
-                  />
-
-                  <div class="postContent">
-                    <Typography tag="h2" styling="bodyL">
-                      {post.data.title}
-                    </Typography>
-
-                    <Typography tag="p" styling="paragraphM" color="gray1000">
-                      {truncateText(post.data.description)}
-                    </Typography>
-
-                    <div class="postMeta">
-                      <Typography
-                        color="gray1000"
-                        tag="span"
-                        styling="paragraphS"
-                      >
-                        {formatDate(post.data.publishedAt)}
-                      </Typography>
-                      {post.data.readingTime && (
-                        <>
-                          <span class="metaSeparator">•</span>
-                          <Typography
-                            color="gray1000"
-                            tag="span"
-                            styling="paragraphS"
-                          >
-                            {post.data.readingTime}
-                          </Typography>
-                        </>
-                      )}
-                    </div>
+            <article class="postCard">
+              <a href={`${PAGES.BLOG}/${post.slug}`} class="postLink">
+                <div class="cardHeader">
+                  <Typography tag="span" styling="bodyS" color="gray500">
+                    {formatDate(post.data.publishedAt)}
+                  </Typography>
+                  <div class="arrowIcon">
+                    <ArrowUpRight />
                   </div>
                 </div>
+
+                <div class="cardContent">
+                  <h2 class="postTitle">{post.data.title}</h2>
+                  <Typography
+                    tag="p"
+                    styling="paragraphM"
+                    color="gray500"
+                    class="postDescription"
+                  >
+                    {truncateText(post.data.description)}
+                  </Typography>
+                </div>
+
+                {imageModule && (
+                  <div class="imageContainer">
+                    <Image
+                      class="postImage"
+                      src={imageModule.default}
+                      alt={post.data.title}
+                      inferSize={true}
+                    />
+                  </div>
+                )}
               </a>
             </article>
           );
         })
       }
-    </div>
-  </section>
+      {/* Filler cells for desktop grid */}
+      {fillers.map(() => <div class="postCard filler" />)}
+    </section>
+  </div>
 </MainLayout>
 
 <style lang="scss">
   @use '~styles/mixins/media' as *;
 
-  section {
-    margin-top: 100px;
-    padding: 3rem 1rem;
-
-    a {
-      color: var(--text);
-      text-decoration: none;
-    }
-  }
-
-  header {
+  .blogContainer {
     display: flex;
     flex-direction: column;
-    gap: var(--s-16);
+
+    width: 100%;
+    max-width: var(--max-width);
+    min-height: calc(100vh - var(--header-height));
+    margin-top: var(--header-height);
+    margin-left: auto;
+
+    color: var(--white);
+
+    background-color: var(--black);
   }
 
-  .highlightText {
-    position: relative;
-    z-index: 1;
-    background-color: var(--primary-lightest-doodle);
-  }
+  // ==========================================
+  // Hero Section
+  // ==========================================
+  .heroSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
-  .posts {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: var(--s-16);
-    row-gap: var(--s-56);
+    padding: var(--s-64) var(--s-16);
+    border-right: 1px solid var(--gray-800);
+    border-bottom: 1px solid var(--gray-800);
+    border-left: 1px solid var(--gray-800);
 
-    margin-top: var(--s-46);
-
-    @include media-min('sm') {
-      grid-template-columns: repeat(2, 1fr);
-      row-gap: var(--s-32);
+    @include media-min('lg') {
+      min-height: 25vh;
+      padding: var(--s-100) var(--s-40);
     }
+  }
 
-    @include media-min('md') {
+  .heroContent {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-32);
+    align-items: flex-start;
+
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .heroTitle {
+    margin: 0;
+    margin-bottom: var(--s-16);
+
+    font-size: 5rem;
+    font-size: clamp(4rem, 10vw, 8rem);
+    font-weight: 500;
+    line-height: 1.1;
+    color: var(--white);
+    letter-spacing: -0.02em;
+  }
+
+  .heroCta {
+    display: flex;
+  }
+
+  // ==========================================
+  // Blog Listing Grid
+  // ==========================================
+  .postsGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    border-left: 1px solid var(--gray-800);
+
+    @include media-min('lg') {
       grid-template-columns: repeat(3, 1fr);
     }
   }
 
-  .postContent {
+  .postCard {
     display: flex;
     flex-direction: column;
-    gap: var(--s-8);
+
+    border-right: 1px solid var(--gray-800);
+    border-bottom: 1px solid var(--gray-800);
+
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: var(--gray-900);
+    }
+
+    &.filler {
+      display: none;
+
+      @include media-min('lg') {
+        display: flex;
+      }
+    }
+  }
+
+  .postLink {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-24);
+
+    height: 100%;
+    padding: var(--s-32);
+
+    color: inherit;
+    text-decoration: none;
+
+    @include media-min('lg') {
+      padding: var(--s-40);
+    }
+  }
+
+  .cardHeader {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+    :global(span) {
+      font-family: inherit;
+      font-size: 1.4rem;
+      color: var(--gray-500);
+    }
+  }
+
+  .arrowIcon {
+    width: 2.4rem;
+    height: 2.4rem;
+    color: var(--white);
+
+    /* stylelint-disable-next-line selector-pseudo-class-no-unknown */
+    :global(svg) {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .cardContent {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-16);
+    margin-top: auto;
+  }
+
+  .postTitle {
+    margin: 0;
+
+    font-size: 2.4rem;
+    font-weight: 500;
+    line-height: 1.3;
+    color: var(--white);
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern */
+  .postDescription {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .imageContainer {
+    overflow: hidden;
+
+    aspect-ratio: 16 / 10;
+    width: 100%;
+    margin-top: var(--s-24);
+
+    background-color: var(--gray-900);
   }
 
   .postImage {
-    aspect-ratio: 16 / 10;
+    display: block;
+
     width: 100%;
-    height: auto;
-    margin-bottom: var(--s-16);
-    border-radius: var(--radius-12);
+    height: 100%;
 
-    object-fit: fill;
+    object-fit: cover;
     object-position: center;
-  }
-
-  .postMeta {
-    display: flex;
-    align-items: center;
-    gap: var(--s-8);
-    margin-top: var(--s-8);
-
-    .metaSeparator {
-      color: var(--gray-700);
-      font-size: 1rem;
-      font-weight: bold;
-    }
   }
 </style>

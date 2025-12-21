@@ -6,7 +6,7 @@ const blog = defineCollection({
     // Core fields
     title: z.string(),
     description: z.string(),
-    author: z.enum(['Tommy', 'Paweł']),
+    author: z.string(),
 
     // Date fields
     publishedAt: z.coerce.date(),
