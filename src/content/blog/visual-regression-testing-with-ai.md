@@ -5,7 +5,7 @@ author: 'omoka Team'
 publishedAt: 2025-12-20
 readingTime: '12 min'
 canonical: 'https://omoka.dev/blog/visual-regression-testing-with-ai'
-coverImage: 'introducing-omoka.svg'
+coverImage: 'visual-regression.svg'
 
 seo:
   ogUrl: 'https://omoka.dev/blog/visual-regression-testing-with-ai'

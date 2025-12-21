@@ -262,6 +262,11 @@ const fillers = Array.from({ length: fillerCount });
   }
 
   .postTitle {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+
     margin: 0;
 
     font-size: 2.4rem;

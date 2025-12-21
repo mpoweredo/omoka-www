@@ -5,7 +5,7 @@ author: 'omoka Team'
 publishedAt: 2025-12-21
 readingTime: '9 min'
 canonical: 'https://omoka.dev/blog/ai-qa-agent-vs-selenium-automation'
-coverImage: 'introducing-omoka.svg'
+coverImage: 'ai-agent-selenium.svg'
 
 seo:
   ogUrl: 'https://omoka.dev/blog/ai-qa-agent-vs-selenium-automation'
