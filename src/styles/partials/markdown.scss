@@ -98,7 +98,7 @@
     font-size: 1.4rem;
     font-weight: 600;
     line-height: 1.4;
-    color: var(--gray-1400);
+    color: var(--gray-200);
 
     @include media-min('sm') {
       font-size: 1.6rem;
@@ -112,7 +112,7 @@
     font-size: 1.4rem;
     font-weight: 400;
     line-height: 1.65;
-    color: var(--gray-1400);
+    color: var(--gray-200);
 
     @include media-min('sm') {
       margin-bottom: var(--s-16);
@@ -123,10 +123,14 @@
 
   // Links
   a {
-    color: var(--primary);
+    color: var(--gray-200); // Changed from primary-500 to gray-200
     text-decoration: underline;
     text-decoration-thickness: 0.1rem;
     text-underline-offset: 0.2rem;
+
+    &:hover {
+      color: var(--primary-500); // Hover state to primary color
+    }
   }
 
   // Strong and emphasis
@@ -169,7 +173,7 @@
   ol {
     margin-bottom: var(--s-16);
     padding-left: var(--s-24);
-    color: var(--gray-1400);
+    color: var(--gray-200);
 
     @include media-min('sm') {
       margin-bottom: var(--s-20);
@@ -205,7 +209,7 @@
     margin: var(--s-20) 0;
     padding: var(--s-16) var(--s-20);
     border-radius: var(--radius-8);
-    background: var(--gray-100);
+    background: var(--gray-900);
 
     @include media-min('sm') {
       margin: var(--s-24) 0;
@@ -245,7 +249,7 @@
 
       font-size: 1.3rem;
       font-style: normal;
-      color: var(--gray-1200);
+      color: var(--gray-400);
 
       &::before {
         content: '— ';
@@ -259,11 +263,12 @@
 
     margin: var(--s-20) 0;
     padding: var(--s-16);
-    border: 0.1rem solid var(--gray-300);
+    border: 0.1rem solid var(--gray-800);
     border-radius: var(--radius-12);
 
-    color: #15161a !important; // Dark text
-    background: #f8f8f9 !important; // Light gray background
+    color: var(--text) !important; // Light text
+
+    background: var(--gray-900) !important; // Dark background
 
     @include media-min('sm') {
       margin: var(--s-24) 0;
@@ -272,9 +277,11 @@
 
     code {
       padding: 0 !important;
+
       font-size: 1.3rem;
       line-height: 1.6;
-      color: #15161a !important; // Dark text
+      color: var(--text) !important; // Light text
+
       background: transparent !important;
 
       @include media-min('sm') {
@@ -291,9 +298,9 @@
     font-family: Monaco, 'Courier New', monospace;
     font-size: 1.3rem;
     font-weight: 500;
-    color: var(--text);
+    color: var(--primary-400);
 
-    background: var(--gray-100);
+    background: var(--gray-900);
 
     @include media-min('sm') {
       padding: 0.3rem var(--s-8);
@@ -305,7 +312,7 @@
   hr {
     margin: var(--s-32) 0;
     border: none;
-    border-top: 0.1rem solid var(--gray-300);
+    border-top: 0.1rem solid var(--gray-800);
 
     @include media-min('sm') {
       margin: var(--s-40) 0;
@@ -317,7 +324,6 @@
     max-width: 100%;
     height: auto;
     margin: var(--s-20) 0;
-    border-radius: var(--radius-12);
 
     @include media-min('sm') {
       margin: var(--s-24) 0;
@@ -337,11 +343,11 @@
     }
 
     thead {
-      background: var(--gray-100);
+      background: var(--gray-900);
 
       th {
         padding: var(--s-10) var(--s-12);
-        border-bottom: 0.1rem solid var(--gray-200);
+        border-bottom: 0.1rem solid var(--gray-800);
 
         font-weight: 600;
         color: var(--text);
@@ -355,10 +361,10 @@
 
     tbody {
       tr {
-        border-bottom: 0.1rem solid var(--gray-200);
+        border-bottom: 0.1rem solid var(--gray-800);
 
         &:hover {
-          background: var(--gray-50);
+          background: var(--gray-900);
         }
 
         &:last-child {
@@ -368,7 +374,7 @@
 
       td {
         padding: var(--s-10) var(--s-12);
-        color: var(--gray-1400);
+        color: var(--gray-200);
 
         @include media-min('sm') {
           padding: var(--s-12) var(--s-16);
@@ -386,7 +392,7 @@
   // Keyboard key styling
   kbd {
     padding: 0.2rem var(--s-8);
-    border: 0.1rem solid var(--gray-400);
+    border: 0.1rem solid var(--gray-600);
     border-radius: var(--radius-6);
 
     font-family: Monaco, 'Courier New', monospace;
@@ -394,8 +400,8 @@
     font-weight: 500;
     color: var(--text);
 
-    background: var(--gray-100);
-    box-shadow: 0 0.2rem 0 var(--gray-400);
+    background: var(--gray-800);
+    box-shadow: 0 0.2rem 0 var(--gray-600);
 
     @include media-min('sm') {
       font-size: 1.3rem;
@@ -412,14 +418,14 @@
   mark {
     padding: 0.2rem var(--s-4);
     border-radius: var(--radius-4);
-    color: var(--text);
-    background: var(--yellow);
+    color: var(--black);
+    background: var(--primary-500);
   }
 
   // Small text
   small {
     font-size: 1.2rem;
-    color: var(--gray-1200);
+    color: var(--gray-400);
   }
 
   // Definition lists
@@ -447,7 +453,7 @@
 
       font-size: 1.4rem;
       line-height: 1.65;
-      color: var(--gray-1400);
+      color: var(--gray-200);
 
       @include media-min('sm') {
         margin-left: var(--s-24);
@@ -473,7 +479,7 @@
 
       font-size: 1.3rem;
       font-style: italic;
-      color: var(--gray-1200);
+      color: var(--gray-400);
       text-align: center;
 
       @include media-min('sm') {
@@ -486,10 +492,10 @@
   details {
     margin: var(--s-16) 0;
     padding: var(--s-16);
-    border: 0.1rem solid var(--gray-300);
+    border: 0.1rem solid var(--gray-800);
     border-radius: var(--radius-8);
 
-    background: var(--gray-50);
+    background: var(--gray-900);
 
     @include media-min('sm') {
       margin: var(--s-20) 0;

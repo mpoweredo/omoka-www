@@ -6,13 +6,12 @@ import type { CollectionEntry } from 'astro:content';
 import ArrowLeft from 'phosphor-astro/ArrowLeft.astro';
 import Typography from '~components/ui/Typography.astro';
 import { Image } from 'astro:assets';
-import AuthorCard from '~components/shared/AuthorCard.astro';
 
 // Pre-render at build time (static)
 export const prerender = true;
 
 const images = import.meta.glob<{ default: ImageMetadata }>(
-  '/src/assets/blog/*.{jpeg,jpg,png,gif,webp}',
+  '/src/assets/blog/*.{jpeg,jpg,png,gif,webp,svg}',
 );
 
 export async function getStaticPaths() {
@@ -79,7 +78,7 @@ const twitterCard = post.data.seo?.twitterCard || 'summary_large_image';
       </a>
 
       <div class="postMeta">
-        <Typography color="gray1000" tag="span" styling="paragraphS">
+        <Typography color="gray200" tag="span" styling="paragraphS">
           {formatDate(post.data.publishedAt)}
         </Typography>
 
@@ -87,7 +86,7 @@ const twitterCard = post.data.seo?.twitterCard || 'summary_large_image';
           post.data.readingTime && (
             <>
               <span class="metaSeparator">•</span>
-              <Typography color="gray1000" tag="span" styling="paragraphS">
+              <Typography color="gray200" tag="span" styling="paragraphS">
                 {post.data.readingTime}
               </Typography>
             </>
@@ -113,8 +112,6 @@ const twitterCard = post.data.seo?.twitterCard || 'summary_large_image';
     <div class="post-content">
       <Content />
     </div>
-
-    <AuthorCard authorKey={post.data.author} />
 
     <div class="postFooter">
       <a href="/blog" class="backButton">
@@ -160,7 +157,6 @@ const twitterCard = post.data.seo?.twitterCard || 'summary_large_image';
       aspect-ratio: 16 / 6;
       width: 100%;
       height: auto;
-      border-radius: var(--radius-12);
 
       object-fit: cover;
       object-position: center;
